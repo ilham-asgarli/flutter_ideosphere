@@ -10,20 +10,22 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: IndexedStack(
-                index: context.watch<MainNavBarCubit>().state.index,
-                children: context.read<MainNavBarCubit>().items,
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              child: Center(
+                child: IndexedStack(
+                  index: context.watch<MainNavBarCubit>().state.index,
+                  children: context.read<MainNavBarCubit>().items,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
+        bottomNavigationBar: buildBottomNavigationBar(context),
       ),
-      bottomNavigationBar: buildBottomNavigationBar(context),
     );
   }
 
