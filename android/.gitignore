@@ -12,4 +12,4 @@ key.properties
 **/*.keystore
 **/*.jks
 
-api_key.properties
+apiKey.properties
