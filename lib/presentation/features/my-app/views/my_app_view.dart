@@ -78,7 +78,7 @@ class _MyAppViewState extends State<MyAppView> {
         }
 
         if (state is! NetworkInitial) {
-          _myAppViewModel.removeSplashScreen();
+          _myAppViewModel.removeSplashScreen(context);
         }
 
         if (state is ConnectionSuccess) {

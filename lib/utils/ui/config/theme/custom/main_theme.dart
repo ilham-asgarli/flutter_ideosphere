@@ -16,6 +16,7 @@ class MainTheme extends CustomTheme {
       colorScheme: ColorScheme.fromSwatch().copyWith(
         primary: AppColors.mainColor,
       ),
+      scaffoldBackgroundColor: AppColors.mainColor,
     );
   }
 }

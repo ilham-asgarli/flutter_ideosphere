@@ -15,7 +15,7 @@ class ConfigRouter extends RouterInterface {
   @override
   Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case RouterConstants.home:
+      case RouterConstants.main:
         return normalNavigate(
           BlocProvider(
             create: (context) => MainNavBarCubit(),

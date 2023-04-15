@@ -5,7 +5,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.18.2 <3.0.0'
+  sdk: '>=2.19.0 <3.0.0'
 
 # flutter pub outdated
 # flutter pub upgrade
@@ -49,6 +49,7 @@ dependencies:
   connectivity_plus: ^3.0.2
   hexcolor: ^3.0.1
   google_maps_flutter: ^2.2.5
+  geolocator: ^9.0.2
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,7 @@ flutter:
     - assets/env/
     - assets/images/
     - assets/translations/
+    - assets/google-maps/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

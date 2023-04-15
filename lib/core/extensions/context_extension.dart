@@ -18,6 +18,8 @@ extension MediaQueryExtension on BuildContext {
   SizeProperty get minSizeProperty =>
       width == minProperty ? SizeProperty.width : SizeProperty.height;
 
+  double get topPadding => mediaQuery.padding.top;
+
   double get lowValue => height * 0.01;
 
   double get normalValue => height * 0.02;

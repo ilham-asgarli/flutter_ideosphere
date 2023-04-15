@@ -6,6 +6,6 @@ the three routes /a, /a/b, and /a/b/c loaded, in that order.
  */
 
 class RouterConstants {
-  static const notFound = "/404";
-  static const home = "/";
+  static const notFound = "404";
+  static const main = "main";
 }

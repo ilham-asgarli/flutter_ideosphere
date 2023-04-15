@@ -1,15 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../../../../../../core/extensions/context_extension.dart';
+import '../../../../../../utils/logic/helpers/google-maps/google_maps_helper.dart';
+import '../../../../../../utils/ui/constants/colors/app_colors.dart';
+import '../../../../../components/custom_circle_button.dart';
+import '../state/cubit/home_cubit.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GoogleMap(
-      initialCameraPosition: CameraPosition(
-        target: LatLng(37.42796133580664, -122.085749655962),
-        zoom: 14.4746,
+    HomeCubit readHomeCubit = context.read<HomeCubit>();
+    HomeCubit watchHomeCubit = context.watch<HomeCubit>();
+    HomeState homeState = watchHomeCubit.state;
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ),
+      child: Stack(
+        children: [
+          GoogleMap(
+            padding: EdgeInsets.only(
+              top: context.topPadding,
+            ),
+            initialCameraPosition: CameraPosition(
+              target: LatLng(
+                homeState.cameraPosition.first,
+                homeState.cameraPosition.last,
+              ),
+              zoom: 10.5,
+            ),
+            onMapCreated: (controller) async {
+              /*String dark =
+                  await rootBundle.loadString('assets/google-maps/dark.txt');
+              controller.setMapStyle(dark);*/
+
+              readHomeCubit.homeViewModel.controller = controller;
+              readHomeCubit.setPosition(
+                await GoogleMapsHelper.instance
+                    .animateCameraToMyLocation(controller),
+              );
+            },
+            myLocationEnabled: true,
+            zoomControlsEnabled: false,
+            myLocationButtonEnabled: false,
+          ),
+          Positioned(
+            top: context.topPadding + 3,
+            right: 10,
+            child: CustomCircleButton(
+              color: AppColors.mainColor2,
+              child: const FaIcon(
+                FontAwesomeIcons.locationCrosshairs,
+              ),
+              onTap: () async {
+                readHomeCubit.setPosition(
+                  await GoogleMapsHelper.instance.animateCameraToMyLocation(
+                      readHomeCubit.homeViewModel.controller),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
