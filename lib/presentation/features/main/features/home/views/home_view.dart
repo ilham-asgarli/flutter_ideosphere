@@ -69,8 +69,10 @@ class HomeView extends StatelessWidget {
             zoomControlsEnabled: false,
             myLocationButtonEnabled: false,
           ),
-          const Positioned.fill(
+          const Positioned(
             bottom: 80,
+            left: 0,
+            right: 0,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: EventCard(),
