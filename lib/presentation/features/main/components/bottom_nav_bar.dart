@@ -35,6 +35,9 @@ class BottomNavBar extends StatelessWidget {
 
   buildButton(BuildContext context, int index) {
     return CustomCircleButton(
+      color: context.watch<MainNavBarCubit>().state.index == index
+          ? null
+          : Colors.transparent,
       child: FaIcon(
         icon(index),
         size: 20,

@@ -17,4 +17,10 @@ class HomeCubit extends Cubit<HomeState> {
       ),
     );
   }
+
+  void changeEvent(String? markerId) {
+    emit(state.copyWith(
+      markerId: markerId == state.markerId ? "" : markerId,
+    ));
+  }
 }

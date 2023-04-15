@@ -8,6 +8,7 @@ import '../../../../../../core/extensions/context_extension.dart';
 import '../../../../../../utils/logic/helpers/google-maps/google_maps_helper.dart';
 import '../../../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../../../components/custom_circle_button.dart';
+import '../components/event_card.dart';
 import '../state/cubit/home_cubit.dart';
 
 class HomeView extends StatelessWidget {
@@ -47,9 +48,33 @@ class HomeView extends StatelessWidget {
                     .animateCameraToMyLocation(controller),
               );
             },
+            markers: readHomeCubit.homeViewModel.events.map(
+              (e) {
+                return Marker(
+                  markerId: MarkerId(e[0]),
+                  position: LatLng(
+                    e[1][0],
+                    e[1][1],
+                  ),
+                  icon: BitmapDescriptor.defaultMarkerWithHue(
+                    e[0] == watchHomeCubit.state.markerId
+                        ? BitmapDescriptor.hueAzure
+                        : BitmapDescriptor.hueRed,
+                  ),
+                  onTap: () => readHomeCubit.changeEvent(e[0]),
+                );
+              },
+            ).toSet(),
             myLocationEnabled: true,
             zoomControlsEnabled: false,
             myLocationButtonEnabled: false,
+          ),
+          const Positioned.fill(
+            bottom: 80,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: EventCard(),
+            ),
           ),
           Positioned(
             top: context.topPadding + 3,
@@ -62,7 +87,8 @@ class HomeView extends StatelessWidget {
               onTap: () async {
                 readHomeCubit.setPosition(
                   await GoogleMapsHelper.instance.animateCameraToMyLocation(
-                      readHomeCubit.homeViewModel.controller),
+                    readHomeCubit.homeViewModel.controller,
+                  ),
                 );
               },
             ),
