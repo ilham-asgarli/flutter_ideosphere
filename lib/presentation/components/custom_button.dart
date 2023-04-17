@@ -8,6 +8,7 @@ class CustomButton extends StatelessWidget {
   final Widget? child;
   final Color? color, textColor;
   final String? text;
+  final EdgeInsetsGeometry? padding;
   final Function()? onTap;
 
   const CustomButton({
@@ -20,6 +21,7 @@ class CustomButton extends StatelessWidget {
     this.color,
     this.textColor,
     this.text,
+    this.padding,
   }) : super(key: key);
 
   @override
@@ -30,25 +32,24 @@ class CustomButton extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(radius),
-        child: SizedBox(
+        child: Ink(
           width: width,
           height: height,
-          child: Ink(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(radius),
-              color: color ?? AppColors.secondColor,
-            ),
-            child: Center(
-              child: child ??
-                  Text(
-                    text ?? "",
-                    style: TextStyle(
-                      color: textColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(radius),
+            color: color ?? AppColors.thirdColor,
+          ),
+          padding: padding,
+          child: Center(
+            child: child ??
+                Text(
+                  text ?? "",
+                  style: TextStyle(
+                    color: textColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-            ),
+                ),
           ),
         ),
       ),

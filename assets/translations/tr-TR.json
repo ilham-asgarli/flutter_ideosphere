@@ -2,5 +2,8 @@
   "notFoundNavigation": "403",
   "noInternet": "İnternet bağlantınız yok.",
   "continue_" : "Devam et",
-  "signDescription": ""
+  "signDescription": "Kolayca bağlantı kurun ve yeni insanlarla tanışın. Sosyalleşmeyi basit ve eğlenceli hale getirin, yakınınızdaki etkinlikleri keşfedin ve buluşmaya başlayın!",
+  "welcome": "Hoş Geldiniz!",
+  "termOfUseDescription": "Uygulamayı kullanarak @:termOfUse'nı kabul etmiş olursunuz.",
+  "termOfUse": "Kullanım Koşulları"
 }

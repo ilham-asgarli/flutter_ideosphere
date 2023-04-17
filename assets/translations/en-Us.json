@@ -2,5 +2,8 @@
   "notFoundNavigation": "403",
   "noInternet": "You don't have internet connection.",
   "continue_": "Continue",
-  "signDescription": "Connect and meet new people with ease - join events on app today!\nMake socializing simple and fun - discover events near you and start meeting!"
+  "signDescription": "Connect and meet new people with ease. Make socializing simple and fun, discover events near you and start meeting!",
+  "welcome": "Welcome!" ,
+  "termOfUseDescription": "By using app, you agree to accept @:termOfUse@:.",
+  "termOfUse": "Terms of Use"
 }

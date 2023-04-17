@@ -6,7 +6,8 @@ class AppColors {
   static Color mainColor1 = HexColor("#22272F");
   static Color mainColor2 = HexColor("#30353F");
 
-  static Color secondColor = HexColor("#52889F");
+  static Color secondColor = Colors.white;
+  static Color thirdColor = HexColor("#52889F");
 
   static const Color light = Colors.white;
   static Color dark = Colors.grey[850]!;

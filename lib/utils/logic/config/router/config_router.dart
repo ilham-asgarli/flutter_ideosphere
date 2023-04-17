@@ -6,6 +6,7 @@ import '../../../../presentation/features/main/views/main_view.dart';
 import '../../../../presentation/features/not-found-navigation/views/not_found_navigation_view.dart';
 import '../../../../presentation/features/sign/features/sign-in/views/sign_in_view.dart';
 import '../../../../presentation/features/sign/features/sign-up/views/sign_up_view.dart';
+import '../../../../presentation/features/sign/state/cubit/sign_cubit.dart';
 import '../../../../presentation/features/sign/views/sign_view.dart';
 import '../../constants/router/router_constants.dart';
 import 'interfaces/router_interface.dart';
@@ -27,7 +28,10 @@ class ConfigRouter extends RouterInterface {
         );
         break;
       case RouterConstants.sign:
-        widget = const SignView();
+        widget = BlocProvider(
+          create: (context) => SignCubit(),
+          child: const SignView(),
+        );
         break;
       case RouterConstants.signUp:
         widget = const SignUpView();
