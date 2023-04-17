@@ -27,7 +27,6 @@ class SignForm extends StatelessWidget {
             hintTextColor: Colors.grey,
             textColor: AppColors.mainColor,
             keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
             onChanged: (p0) {
               if (readSignCubit.state.showPasswordField) {
                 readSignCubit.changePasswordFieldVisibility(
