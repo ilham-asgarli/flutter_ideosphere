@@ -63,7 +63,17 @@ class SignForm extends StatelessWidget {
               if (!readSignCubit.state.showPasswordField) {
                 // TODO check email
                 await Future.delayed(const Duration(seconds: 2));
-                readSignCubit.changePasswordFieldVisibility();
+
+                if (false) {
+                  // true : email exists
+                  readSignCubit.changePasswordFieldVisibility();
+                } else {
+                  readSignCubit.signViewModel.scrollController.animateToPage(
+                    1,
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeIn,
+                  );
+                }
               } else {
                 RouterService.instance.pushNamedAndRemoveUntil(
                   path: RouterConstants.main,
