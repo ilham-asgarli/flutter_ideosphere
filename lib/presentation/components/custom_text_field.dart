@@ -13,6 +13,8 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final Color? iconColor, fillColor, hintTextColor, textColor;
   final double? fontSize, radius;
+  final String obscuringCharacter;
+  final FocusNode? focusNode;
   final EdgeInsetsGeometry? contentPadding;
   final FormFieldSetter<String>? onSaved;
   final FormFieldValidator<String>? validator;
@@ -26,6 +28,7 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType,
     this.textInputAction,
     this.obscureText = false,
+    this.obscuringCharacter = '•',
     this.iconColor,
     this.fillColor,
     this.fontSize,
@@ -36,14 +39,17 @@ class CustomTextField extends StatelessWidget {
     this.contentPadding,
     this.radius,
     this.textColor,
+    this.focusNode,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: focusNode,
       textInputAction: textInputAction,
       keyboardType: keyboardType,
       obscureText: obscureText,
+      obscuringCharacter: obscuringCharacter,
       inputFormatters: keyboardType == TextInputType.phone
           ? [
               FilteringTextInputFormatter.digitsOnly,

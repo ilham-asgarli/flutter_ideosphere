@@ -8,5 +8,9 @@ abstract class  LocaleKeys {
   static const welcome = 'welcome';
   static const termOfUseDescription = 'termOfUseDescription';
   static const termOfUse = 'termOfUse';
+  static const email = 'email';
+  static const password = 'password';
+  static const signIn = 'signIn';
+  static const signUp = 'signUp';
 
 }

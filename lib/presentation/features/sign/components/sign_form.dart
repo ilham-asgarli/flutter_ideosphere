@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/extensions/num_extension.dart';
+import '../../../../core/router/core/router_service.dart';
 import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../components/custom_button.dart';
 import '../../../components/custom_text_field.dart';
@@ -15,34 +17,59 @@ class SignForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FocusNode passwordFocusNode = FocusNode();
+
+    SignState watchSignState = context.watch<SignCubit>().state;
+    SignCubit readSignCubit = context.read<SignCubit>();
+
     return Form(
       child: Column(
         children: [
           CustomTextField(
             fillColor: Colors.white,
-            hintText: "Email",
+            hintText: LocaleKeys.email.tr(),
             hintTextColor: Colors.grey,
             textColor: AppColors.mainColor,
             keyboardType: TextInputType.emailAddress,
           ),
+          if (watchSignState.showPasswordField)
+            Column(
+              children: [
+                5.verticalSpace,
+                CustomTextField(
+                  focusNode: passwordFocusNode,
+                  fillColor: Colors.white,
+                  hintText: LocaleKeys.password.tr(),
+                  hintTextColor: Colors.grey,
+                  textColor: AppColors.mainColor,
+                  obscureText: true,
+                ),
+              ],
+            ),
           10.verticalSpace,
           CustomButton(
             height: 50,
-            color: Colors.white,
-            text: LocaleKeys.continue_.tr(),
-            textColor: AppColors.mainColor,
-            child: context.watch<SignCubit>().state.signingIn
-                ? FractionallySizedCircularProgressIndicator(
+            text: watchSignState.showPasswordField
+                ? LocaleKeys.signIn.tr()
+                : LocaleKeys.continue_.tr(),
+            child: watchSignState.signing
+                ? const FractionallySizedCircularProgressIndicator(
                     factor: 0.5,
-                    color: AppColors.mainColor,
                   )
                 : null,
-            onTap: () {
-              FocusScope.of(context).unfocus();
-              context.read<SignCubit>().changeSigning();
+            onTap: () async {
+              readSignCubit.changeSigning();
 
-              Future.delayed(const Duration(seconds: 2))
-                  .then((value) => context.read<SignCubit>().changeSigning());
+              if (!readSignCubit.state.showPasswordField) {
+                // TODO check email
+                await Future.delayed(const Duration(seconds: 2));
+                readSignCubit.changePasswordFieldVisibility();
+              } else {
+                RouterService.instance.pushNamedAndRemoveUntil(
+                  path: RouterConstants.main,
+                );
+              }
+              readSignCubit.changeSigning();
             },
           ),
         ],

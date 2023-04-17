@@ -1,17 +1,21 @@
 part of 'sign_cubit.dart';
 
 class SignState {
-  final bool signingIn;
+  final bool signing;
+  final bool showPasswordField;
 
   SignState({
-    this.signingIn = false,
+    this.signing = false,
+    this.showPasswordField = false,
   });
 
   SignState copyWith({
     bool? signingIn,
+    bool? showPasswordField,
   }) {
     return SignState(
-      signingIn: signingIn ?? this.signingIn,
+      signing: signingIn ?? this.signing,
+      showPasswordField: showPasswordField ?? this.showPasswordField,
     );
   }
 }
