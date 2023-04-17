@@ -1,18 +1,16 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:ideosphere/utils/logic/state/bloc/theme/theme_bloc.dart';
+import 'package:ideosphere/utils/logic/state/cubit/network/network_cubit.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'core/cache/shared_preferences_manager.dart';
 import 'core/constants/app/locale_constants.dart';
-import 'presentation/features/main/features/home/state/cubit/home_cubit.dart';
 import 'presentation/features/my-app/views/my_app_view.dart';
-import 'utils/logic/state/bloc/theme/theme_bloc.dart';
-import 'utils/logic/state/cubit/network/network_cubit.dart';
 
 void main() async {
   await init();
@@ -46,14 +44,8 @@ Widget app() {
         BlocProvider(
           create: (_) => NetworkCubit(),
         ),
-        BlocProvider(
-          create: (context) => HomeCubit(),
-        ),
       ],
-      child: DevicePreview(
-        enabled: false, //!kReleaseMode
-        builder: (context) => const MyAppView(),
-      ),
+      child: const MyAppView(),
     ),
   );
 }

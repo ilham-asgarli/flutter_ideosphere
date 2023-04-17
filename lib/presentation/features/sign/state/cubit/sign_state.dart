@@ -10,11 +10,11 @@ class SignState {
   });
 
   SignState copyWith({
-    bool? signingIn,
+    bool? signing,
     bool? showPasswordField,
   }) {
     return SignState(
-      signing: signingIn ?? this.signing,
+      signing: signing ?? this.signing,
       showPasswordField: showPasswordField ?? this.showPasswordField,
     );
   }

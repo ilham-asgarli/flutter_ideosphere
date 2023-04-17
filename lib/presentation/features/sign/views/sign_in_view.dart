@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
@@ -12,6 +13,9 @@ class SignInView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isKeyboardVisible =
+        KeyboardVisibilityProvider.isKeyboardVisible(context);
+
     return Padding(
       padding: context.paddingNormal * 1.5,
       child: Column(
@@ -31,7 +35,7 @@ class SignInView extends StatelessWidget {
                   ),
                 ),
                 15.verticalSpace,
-                if (context.bottomInset == 0)
+                if (!isKeyboardVisible)
                   Text(
                     LocaleKeys.signDescription.tr(),
                   ),

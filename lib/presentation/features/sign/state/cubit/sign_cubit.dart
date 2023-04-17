@@ -9,9 +9,9 @@ class SignCubit extends Cubit<SignState> {
 
   final SignViewModel signViewModel = SignViewModel();
 
-  void changeSigning({bool? signingIn}) {
+  void changeSigning({bool? signing}) {
     emit(state.copyWith(
-      signingIn: signingIn ?? !state.signing,
+      signing: signing ?? !state.signing,
     ));
   }
 

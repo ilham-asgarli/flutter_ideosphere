@@ -10,6 +10,4 @@ class RouterConstants {
   static const main = "main";
 
   static const sign = "sign";
-  static const signIn = "signIn";
-  static const signUp = "signUp";
 }

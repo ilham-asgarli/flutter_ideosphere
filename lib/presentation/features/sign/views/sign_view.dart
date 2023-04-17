@@ -19,7 +19,6 @@ class SignView extends StatelessWidget {
         statusBarColor: Colors.transparent,
       ),
       child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
         onTap: () {
           FocusScope.of(context).unfocus();
         },
@@ -47,7 +46,7 @@ class SignView extends StatelessWidget {
                         .signViewModel
                         .scrollController,
                     physics: const NeverScrollableScrollPhysics(),
-                    children: [
+                    children: const [
                       SignInView(),
                       SignUpView(),
                     ],

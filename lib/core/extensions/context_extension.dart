@@ -20,6 +20,7 @@ extension MediaQueryExtension on BuildContext {
 
   double get topPadding => mediaQuery.padding.top;
 
+  // In case of complicated widgets tree, it doesn't work.
   double get bottomInset => mediaQuery.viewInsets.bottom;
 
   double get lowValue => height * 0.01;

@@ -1,5 +1,9 @@
+import 'package:flutter/widgets.dart';
+
 abstract class BaseViewModel {
-  BaseViewModel() {
+  BuildContext context;
+
+  BaseViewModel(this.context) {
     init();
   }
 

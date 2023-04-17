@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/extensions/context_extension.dart';
+import '../../../components/custom_circle_button.dart';
 import '../state/cubit/sign_cubit.dart';
 
 class SignUpView extends StatelessWidget {
@@ -16,13 +18,10 @@ class SignUpView extends StatelessWidget {
       padding: context.paddingNormal * 1.5,
       child: Column(
         children: [
-          BackButton(
-            onPressed: () {
-              readSignCubit.signViewModel.scrollController.animateToPage(
-                0,
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.easeIn,
-              );
+          CustomCircleButton(
+            child: const FaIcon(FontAwesomeIcons.arrowLeft),
+            onTap: () {
+              readSignCubit.signViewModel.animateToPage(0);
             },
           ),
         ],

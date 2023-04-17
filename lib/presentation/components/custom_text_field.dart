@@ -16,6 +16,8 @@ class CustomTextField extends StatelessWidget {
   final String obscuringCharacter;
   final FocusNode? focusNode;
   final EdgeInsetsGeometry? contentPadding;
+  final Function()? onTap;
+  final Function(String)? onChanged;
   final FormFieldSetter<String>? onSaved;
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onFieldSubmitted;
@@ -40,6 +42,8 @@ class CustomTextField extends StatelessWidget {
     this.radius,
     this.textColor,
     this.focusNode,
+    this.onTap,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -56,6 +60,8 @@ class CustomTextField extends StatelessWidget {
               InternationalPhoneFormatter(),
             ]
           : null,
+      onTap: onTap,
+      onChanged: onChanged,
       onSaved: onSaved,
       onFieldSubmitted: onFieldSubmitted,
       style: TextStyle(
