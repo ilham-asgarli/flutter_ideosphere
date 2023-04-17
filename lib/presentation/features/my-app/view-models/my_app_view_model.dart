@@ -10,6 +10,6 @@ class MyAppViewModel extends BaseViewModel {
   }
 
   String getInitialRoute() {
-    return RouterConstants.main;
+    return RouterConstants.sign;
   }
 }

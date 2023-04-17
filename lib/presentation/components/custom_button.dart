@@ -6,7 +6,8 @@ class CustomButton extends StatelessWidget {
   final double? width, height;
   final double radius;
   final Widget? child;
-  final Color? color;
+  final Color? color, textColor;
+  final String? text;
   final Function()? onTap;
 
   const CustomButton({
@@ -14,9 +15,11 @@ class CustomButton extends StatelessWidget {
     this.width,
     this.height,
     this.child,
-    this.radius = 5,
+    this.radius = 12,
     this.onTap,
     this.color,
+    this.textColor,
+    this.text,
   }) : super(key: key);
 
   @override
@@ -36,7 +39,15 @@ class CustomButton extends StatelessWidget {
               color: color ?? AppColors.secondColor,
             ),
             child: Center(
-              child: child,
+              child: child ??
+                  Text(
+                    text ?? "",
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
             ),
           ),
         ),

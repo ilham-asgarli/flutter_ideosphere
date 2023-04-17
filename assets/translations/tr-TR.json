@@ -1,4 +1,6 @@
 {
   "notFoundNavigation": "403",
-  "noInternet": "İnternet bağlantınız yok."
+  "noInternet": "İnternet bağlantınız yok.",
+  "continue_" : "Devam et",
+  "signDescription": ""
 }

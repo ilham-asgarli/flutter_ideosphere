@@ -36,7 +36,7 @@ Widget app() {
   return EasyLocalization(
     supportedLocales: LocaleConstants.supportedLocales,
     path: LocaleConstants.path,
-    //startLocale: kDebugMode ? LocaleConstants.azAZ : null,
+    startLocale: kDebugMode ? LocaleConstants.trTR : null,
     fallbackLocale: LocaleConstants.enUS,
     child: MultiBlocProvider(
       providers: [
