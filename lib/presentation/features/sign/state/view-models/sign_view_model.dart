@@ -19,7 +19,7 @@ class SignViewModel {
     );
   }
 
-  Future<void> onTap(SignCubit readSignCubit) async {
+  Future<void> onTap(BuildContext context, SignCubit readSignCubit) async {
     readSignCubit.changeSigning(signing: true);
 
     if (!readSignCubit.state.showPasswordField) {
@@ -33,6 +33,7 @@ class SignViewModel {
         readSignCubit.signViewModel.animateToPage(1);
       }
     } else {
+      FocusScope.of(context).unfocus();
       RouterService.instance.pushNamedAndRemoveUntil(
         path: RouterConstants.main,
       );
