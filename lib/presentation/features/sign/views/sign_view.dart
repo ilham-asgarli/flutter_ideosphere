@@ -30,12 +30,14 @@ class SignView extends StatelessWidget {
                 "assets/rive/shapes.riv",
                 fit: BoxFit.cover,
               ),
-              BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: 20,
-                  sigmaY: 10,
+              ClipRRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: 20,
+                    sigmaY: 10,
+                  ),
+                  child: const SizedBox(),
                 ),
-                child: const SizedBox(),
               ),
               Scaffold(
                 backgroundColor: Colors.transparent,
