@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/router/core/router_service.dart';
 import '../../../../../utils/logic/constants/router/router_constants.dart';
-import '../cubit/sign_cubit.dart';
+import '../state/cubit/sign_cubit.dart';
 
 class SignViewModel {
   final FocusNode emailFocusNode = FocusNode();
@@ -26,7 +26,7 @@ class SignViewModel {
       // TODO check email
       await Future.delayed(const Duration(seconds: 2));
 
-      if (true) {
+      if (false) {
         // true : email exists
         readSignCubit.changePasswordFieldVisibility(showPasswordField: true);
       } else {

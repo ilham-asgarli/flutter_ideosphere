@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 
-import '../view-models/sign_view_model.dart';
+import '../../view-models/sign_view_model.dart';
 
 part 'sign_state.dart';
 
