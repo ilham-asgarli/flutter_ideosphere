@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../core/extensions/string_extension.dart';
 import '../../utils/ui/constants/colors/app_colors.dart';
-import '../../utils/ui/formatters/international_phone_formatter.dart';
 
 class CustomTextField extends StatelessWidget {
   final String hintText;
@@ -15,6 +15,8 @@ class CustomTextField extends StatelessWidget {
   final String obscuringCharacter;
   final int? maxLength;
   final String? initialValue;
+  final String? counterText;
+  final List<TextInputFormatter>? inputFormatters;
   final FocusNode? focusNode;
   final EdgeInsetsGeometry? contentPadding;
   final Function()? onTap;
@@ -47,6 +49,8 @@ class CustomTextField extends StatelessWidget {
     this.onChanged,
     this.maxLength,
     this.initialValue,
+    this.counterText,
+    this.inputFormatters,
   }) : super(key: key);
 
   @override
@@ -57,12 +61,7 @@ class CustomTextField extends StatelessWidget {
       keyboardType: keyboardType,
       obscureText: obscureText,
       obscuringCharacter: obscuringCharacter,
-      inputFormatters: keyboardType == TextInputType.phone
-          ? [
-              //FilteringTextInputFormatter.digitsOnly,
-              InternationalPhoneFormatter(),
-            ]
-          : null,
+      inputFormatters: inputFormatters,
       onTap: onTap,
       onChanged: onChanged,
       onSaved: onSaved,
@@ -109,10 +108,10 @@ class CustomTextField extends StatelessWidget {
           color: hintTextColor,
           fontSize: fontSize,
         ),
-        //counterText: "",
+        counterText: counterText,
       ),
       maxLength: maxLength,
-      initialValue: keyboardType == TextInputType.phone ? initialValue : "+",
+      initialValue: initialValue,
     );
   }
 }

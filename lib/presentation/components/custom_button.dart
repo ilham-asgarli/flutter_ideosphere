@@ -5,6 +5,7 @@ import '../../utils/ui/constants/colors/app_colors.dart';
 class CustomButton extends StatelessWidget {
   final double? width, height;
   final double radius;
+  final BorderRadius? borderRadius;
   final Widget? child;
   final Color? color, textColor;
   final String? text;
@@ -22,21 +23,22 @@ class CustomButton extends StatelessWidget {
     this.textColor,
     this.text,
     this.padding,
+    this.borderRadius,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(radius),
+      borderRadius: borderRadius ?? BorderRadius.circular(radius),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(radius),
+        borderRadius: borderRadius ?? BorderRadius.circular(radius),
         child: Ink(
           width: width,
           height: height,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(radius),
+            borderRadius: borderRadius ?? BorderRadius.circular(radius),
             color: color ?? AppColors.thirdColor,
           ),
           padding: padding,

@@ -12,9 +12,9 @@ class InternationalPhoneFormatter extends TextInputFormatter {
       TextEditingValue oldValue, TextEditingValue newValue) {
     String text = newValue.text;
 
-    /*if (newValue.selection.baseOffset == 0) {
+    if (newValue.selection.baseOffset == 0) {
       return newValue;
-    }*/
+    }
 
     return newValue.copyWith(
         text: internationalPhoneFormat(text),
