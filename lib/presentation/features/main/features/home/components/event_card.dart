@@ -66,9 +66,19 @@ class _EventCardState extends State<EventCard>
                         : null,
                     width: double.infinity,
                     child: Padding(
-                      padding: context.paddingLow,
+                      padding: context.paddingNormal,
                       child: Column(
-                        children: [],
+                        children: [
+                          Text(
+                            "ıwlcnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnfuqb4ıqcuwotqcu44444444444444444444444",
+                          ),
+                          Text(
+                            "ıwlcnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnfuqb4ıqcuwotqcu44444444444444444444444",
+                          ),
+                          Text(
+                            "ıwlcnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnfuqb4ıqcuwotqcu44444444444444444444444",
+                          ),
+                        ],
                       ),
                     ),
                   ),

@@ -153,8 +153,8 @@ class ExpandablePageView extends StatefulWidget {
         super(key: key);
 
   const ExpandablePageView.builder({
-    required int itemCount,
-    required WidgetBuilder itemBuilder,
+    required int this.itemCount,
+    required WidgetBuilder this.itemBuilder,
     this.controller,
     this.onPageChanged,
     this.reverse = false,
@@ -175,8 +175,6 @@ class ExpandablePageView extends StatefulWidget {
     Key? key,
   })  : assert(estimatedPageSize >= 0.0),
         children = null,
-        itemCount = itemCount,
-        itemBuilder = itemBuilder,
         super(key: key);
 
   @override
@@ -378,7 +376,8 @@ class OverflowPage extends StatelessWidget {
     required this.child,
     required this.alignment,
     required this.scrollDirection,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -71,13 +71,17 @@ class HomeView extends StatelessWidget {
             myLocationButtonEnabled: false,
           ),
           Positioned(
-            bottom: 80,
+            bottom: 70,
             left: 0,
             right: 0,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: ExpandablePageView.builder(
                 itemCount: 5,
+                controller: PageController(
+                  viewportFraction: 0.9,
+                ),
+                padEnds: false,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return const EventCard();
