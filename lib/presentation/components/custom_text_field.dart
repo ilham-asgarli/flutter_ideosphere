@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../core/extensions/string_extension.dart';
 import '../../utils/ui/constants/colors/app_colors.dart';
@@ -14,6 +13,8 @@ class CustomTextField extends StatelessWidget {
   final Color? iconColor, fillColor, hintTextColor, textColor;
   final double? fontSize, radius;
   final String obscuringCharacter;
+  final int? maxLength;
+  final String? initialValue;
   final FocusNode? focusNode;
   final EdgeInsetsGeometry? contentPadding;
   final Function()? onTap;
@@ -44,6 +45,8 @@ class CustomTextField extends StatelessWidget {
     this.focusNode,
     this.onTap,
     this.onChanged,
+    this.maxLength,
+    this.initialValue,
   }) : super(key: key);
 
   @override
@@ -56,7 +59,7 @@ class CustomTextField extends StatelessWidget {
       obscuringCharacter: obscuringCharacter,
       inputFormatters: keyboardType == TextInputType.phone
           ? [
-              FilteringTextInputFormatter.digitsOnly,
+              //FilteringTextInputFormatter.digitsOnly,
               InternationalPhoneFormatter(),
             ]
           : null,
@@ -106,7 +109,10 @@ class CustomTextField extends StatelessWidget {
           color: hintTextColor,
           fontSize: fontSize,
         ),
+        //counterText: "",
       ),
+      maxLength: maxLength,
+      initialValue: keyboardType == TextInputType.phone ? initialValue : "+",
     );
   }
 }

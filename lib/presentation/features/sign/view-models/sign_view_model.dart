@@ -35,13 +35,14 @@ class SignViewModel {
     } else {
       FocusScope.of(context).unfocus();
 
-      // TODO password email
+      // TODO check password
       await Future.delayed(const Duration(seconds: 2));
 
       RouterService.instance.pushNamedAndRemoveUntil(
         path: RouterConstants.main,
       );
     }
+
     readSignCubit.changeSigning(signing: false);
   }
 }

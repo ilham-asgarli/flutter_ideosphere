@@ -14,47 +14,56 @@ class SignView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-      ),
-      child: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Stack(
-            children: [
-              const RiveAnimation.asset(
-                "assets/rive/shapes.riv",
-                fit: BoxFit.cover,
-              ),
-              ClipRRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: 20,
-                    sigmaY: 10,
-                  ),
-                  child: Scaffold(
-                    backgroundColor: Colors.transparent,
-                    body: SafeArea(
-                      child: PageView(
-                        controller: context
-                            .read<SignCubit>()
-                            .signViewModel
-                            .scrollController,
-                        physics: const NeverScrollableScrollPhysics(),
-                        children: const [
-                          SignInView(),
-                          SignUpView(),
-                        ],
+    SignCubit readSignCubit = context.read<SignCubit>();
+
+    return WillPopScope(
+      onWillPop: () async {
+        if (readSignCubit.signViewModel.scrollController.page == 1) {
+          readSignCubit.signViewModel.animateToPage(0);
+          return false;
+        }
+        return true;
+      },
+      child: AnnotatedRegion(
+        value: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+        ),
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Stack(
+              children: [
+                const RiveAnimation.asset(
+                  "assets/rive/shapes.riv",
+                  fit: BoxFit.cover,
+                ),
+                ClipRRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(
+                      sigmaX: 20,
+                      sigmaY: 10,
+                    ),
+                    child: Scaffold(
+                      backgroundColor: Colors.transparent,
+                      body: SafeArea(
+                        child: PageView(
+                          controller:
+                              readSignCubit.signViewModel.scrollController,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: const [
+                            SignInView(),
+                            SignUpView(),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
