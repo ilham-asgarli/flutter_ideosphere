@@ -13,22 +13,31 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: AppColors.mainColor1,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+      margin: EdgeInsets.zero,
+      color: AppColors.mainColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
       ),
-      child: Padding(
-        padding: context.paddingNormal * 0.7,
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            buildButton(context, 0),
-            buildButton(context, 1),
-            buildButton(context, 2),
-            buildButton(context, 3),
-          ],
-        ),
+      child: Column(
+        children: [
+          Divider(
+            height: 0,
+            color: AppColors.mainColor2,
+          ),
+          Padding(
+            padding: context.paddingNormal * 0.5,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                buildButton(context, 0),
+                buildButton(context, 1),
+                buildButton(context, 2),
+                buildButton(context, 3),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

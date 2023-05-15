@@ -115,38 +115,31 @@ class ChatView extends StatelessWidget {
             ),
           ),
         ),
-        Ink(
-          decoration: BoxDecoration(
-            color: AppColors.mainColor,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
+        Column(
+          children: [
+            Divider(
+              height: 0,
+              color: AppColors.mainColor2,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withAlpha(20),
-                spreadRadius: 3,
-                blurRadius: 7,
-                offset: const Offset(0, -7),
+            Ink(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: context.normalValue,
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: buildTextField(),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    buildSend(),
+                  ],
+                ),
               ),
-            ],
-          ),
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: context.normalValue,
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: buildTextField(),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                buildSend(),
-              ],
-            ),
-          ),
+          ],
         ),
       ],
     );
