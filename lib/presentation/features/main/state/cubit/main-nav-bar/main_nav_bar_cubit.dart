@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../features/chat/views/chat_view.dart';
+import '../../../features/chats/views/chats_view.dart';
 import '../../../features/flow/views/flow_view.dart';
 import '../../../features/home/state/cubit/home_cubit.dart';
 import '../../../features/home/views/home_view.dart';
@@ -16,8 +16,8 @@ class MainNavBarCubit extends Cubit<MainNavBarState> {
       create: (context) => HomeCubit(),
       child: const HomeView(),
     ),
-    const ChatView(),
     const FlowView(),
+    const ChatsView(),
     const ProfileView(),
   ];
 

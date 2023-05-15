@@ -10,7 +10,6 @@ import '../../../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../../../components/custom_circle_button.dart';
 import '../../../../../widgets/expandable_page_view.dart';
 import '../components/event_card.dart';
-import '../components/event_list.dart';
 import '../state/cubit/home_cubit.dart';
 
 class HomeView extends StatelessWidget {
