@@ -128,7 +128,7 @@ class ExpandablePageView extends StatefulWidget {
   final bool padEnds;
 
   const ExpandablePageView({
-    required List<Widget> children,
+    required List<Widget> this.children,
     this.controller,
     this.onPageChanged,
     this.reverse = false,
@@ -148,12 +148,11 @@ class ExpandablePageView extends StatefulWidget {
     this.padEnds = true,
     Key? key,
   })  : assert(estimatedPageSize >= 0.0),
-        children = children,
         itemBuilder = null,
         itemCount = null,
         super(key: key);
 
-  ExpandablePageView.builder({
+  const ExpandablePageView.builder({
     required int itemCount,
     required WidgetBuilder itemBuilder,
     this.controller,

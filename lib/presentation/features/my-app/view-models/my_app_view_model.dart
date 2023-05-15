@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import '../../../../core/base/view-models/base_view_model.dart';
+import '../../../../core/cache/shared_preferences_manager.dart';
+import '../../../../utils/logic/constants/cache/shared_preferences_constants.dart';
 import '../../../../utils/logic/constants/router/router_constants.dart';
 
 class MyAppViewModel extends BaseViewModel {
@@ -12,6 +14,11 @@ class MyAppViewModel extends BaseViewModel {
   }
 
   String getInitialRoute() {
+    if (SharedPreferencesManager.instance.preferences
+            ?.getBool(SharedPreferencesConstants.isSignedIn) ??
+        false) {
+      return RouterConstants.main;
+    }
     return RouterConstants.sign;
   }
 }

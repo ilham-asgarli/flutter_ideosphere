@@ -90,9 +90,8 @@ class SignUpView extends StatelessWidget {
                         factor: 0.5,
                       )
                     : null,
-                onTap: () async {
-                  await readSignCubit.signViewModel
-                      .onTap(context, readSignCubit);
+                onTap: () {
+                  readSignCubit.signViewModel.onSignUp(context, readSignCubit);
                 },
               ),
               15.verticalSpace,

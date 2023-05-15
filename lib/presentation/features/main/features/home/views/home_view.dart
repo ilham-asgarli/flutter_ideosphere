@@ -8,7 +8,9 @@ import '../../../../../../core/extensions/context_extension.dart';
 import '../../../../../../utils/logic/helpers/google-maps/google_maps_helper.dart';
 import '../../../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../../../components/custom_circle_button.dart';
+import '../../../../../widgets/expandable_page_view.dart';
 import '../components/event_card.dart';
+import '../components/event_list.dart';
 import '../state/cubit/home_cubit.dart';
 
 class HomeView extends StatelessWidget {
@@ -69,13 +71,19 @@ class HomeView extends StatelessWidget {
             zoomControlsEnabled: false,
             myLocationButtonEnabled: false,
           ),
-          const Positioned(
+          Positioned(
             bottom: 80,
             left: 0,
             right: 0,
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: EventCard(),
+              child: ExpandablePageView.builder(
+                itemCount: 5,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return const EventCard();
+                },
+              ),
             ),
           ),
           Positioned(

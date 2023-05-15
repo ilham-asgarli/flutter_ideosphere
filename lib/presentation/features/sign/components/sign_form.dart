@@ -60,7 +60,8 @@ class SignForm extends StatelessWidget {
                   )
                 : null,
             onTap: () async {
-              await readSignCubit.signViewModel.onTap(context, readSignCubit);
+              await readSignCubit.signViewModel
+                  .onSignIn(context, readSignCubit);
             },
           ),
         ],
