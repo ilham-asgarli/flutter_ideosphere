@@ -37,7 +37,7 @@ class _ChooseGenderState extends State<ChooseGender> {
               ),
               onTap: () {
                 setState(() {
-                  gender = 1;
+                  gender = gender != 1 ? 1 : 0;
                 });
               },
             ),
@@ -55,7 +55,7 @@ class _ChooseGenderState extends State<ChooseGender> {
               ),
               onTap: () {
                 setState(() {
-                  gender = 2;
+                  gender = gender != 2 ? 2 : 0;
                 });
               },
             ),

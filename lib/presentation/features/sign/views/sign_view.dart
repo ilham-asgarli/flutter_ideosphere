@@ -48,16 +48,14 @@ class SignView extends StatelessWidget {
                     ),
                     child: Scaffold(
                       backgroundColor: Colors.transparent,
-                      body: SafeArea(
-                        child: PageView(
-                          controller:
-                              readSignCubit.signViewModel.scrollController,
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: const [
-                            SignInView(),
-                            SignUpView(),
-                          ],
-                        ),
+                      body: PageView(
+                        controller:
+                            readSignCubit.signViewModel.scrollController,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: const [
+                          SignInView(),
+                          SignUpView(),
+                        ],
                       ),
                     ),
                   ),
