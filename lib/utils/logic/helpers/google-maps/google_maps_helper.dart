@@ -9,8 +9,10 @@ class GoogleMapsHelper {
   GoogleMapsHelper._init();
 
   Future<Position> animateCameraToMyLocation(
-      GoogleMapController controller) async {
+    GoogleMapController controller,
+  ) async {
     Position position = await GeolocatorHelper.instance.determinePosition();
+
     controller.animateCamera(
       CameraUpdate.newLatLng(
         LatLng(

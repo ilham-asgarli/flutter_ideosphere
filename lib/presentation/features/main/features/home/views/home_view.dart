@@ -19,7 +19,6 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     HomeCubit readHomeCubit = context.read<HomeCubit>();
     HomeCubit watchHomeCubit = context.watch<HomeCubit>();
-    HomeState homeState = watchHomeCubit.state;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -32,10 +31,7 @@ class HomeView extends StatelessWidget {
               top: context.topPadding,
             ),
             initialCameraPosition: CameraPosition(
-              target: LatLng(
-                homeState.cameraPosition.first,
-                homeState.cameraPosition.last,
-              ),
+              target: readHomeCubit.state.myPosition,
               zoom: 10.5,
             ),
             onMapCreated: (controller) async {
@@ -44,7 +40,7 @@ class HomeView extends StatelessWidget {
               controller.setMapStyle(dark);*/
 
               readHomeCubit.homeViewModel.controller = controller;
-              readHomeCubit.setPosition(
+              readHomeCubit.setMyPosition(
                 await GoogleMapsHelper.instance
                     .animateCameraToMyLocation(controller),
               );
@@ -62,7 +58,9 @@ class HomeView extends StatelessWidget {
                         ? BitmapDescriptor.hueAzure
                         : BitmapDescriptor.hueRed,
                   ),
-                  onTap: () => readHomeCubit.changeEvent(e[0]),
+                  onTap: () {
+                    readHomeCubit.homeViewModel.onTapMarker(context, e[0]);
+                  },
                 );
               },
             ).toSet(),
@@ -76,16 +74,21 @@ class HomeView extends StatelessWidget {
             right: 0,
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: ExpandablePageView.builder(
-                itemCount: 5,
-                controller: PageController(
-                  viewportFraction: 0.9,
+              child: Visibility(
+                visible: readHomeCubit.state.markerId.isNotEmpty,
+                child: ExpandablePageView.builder(
+                  itemCount: 5,
+                  controller: readHomeCubit.homeViewModel.pageController,
+                  padEnds: false,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return const EventCard();
+                  },
+                  onPageChanged: (index) {
+                    readHomeCubit.homeViewModel
+                        .onEventPageChanged(context, index);
+                  },
                 ),
-                padEnds: false,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return const EventCard();
-                },
               ),
             ),
           ),
@@ -98,7 +101,7 @@ class HomeView extends StatelessWidget {
                 FontAwesomeIcons.locationCrosshairs,
               ),
               onTap: () async {
-                readHomeCubit.setPosition(
+                readHomeCubit.setMyPosition(
                   await GoogleMapsHelper.instance.animateCameraToMyLocation(
                     readHomeCubit.homeViewModel.controller,
                   ),

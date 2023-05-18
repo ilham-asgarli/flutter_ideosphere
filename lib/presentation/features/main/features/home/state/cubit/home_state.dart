@@ -1,20 +1,20 @@
 part of 'home_cubit.dart';
 
 class HomeState {
-  final List<double> cameraPosition;
+  final LatLng myPosition;
   final String markerId;
 
   HomeState({
-    this.cameraPosition = const [41.015137, 28.979530],
+    this.myPosition = const LatLng(41.015137, 28.979530),
     this.markerId = "",
   });
 
   HomeState copyWith({
-    List<double>? cameraPosition,
+    LatLng? myPosition,
     String? markerId,
   }) {
     return HomeState(
-      cameraPosition: cameraPosition ?? this.cameraPosition,
+      myPosition: myPosition ?? this.myPosition,
       markerId: markerId ?? this.markerId,
     );
   }
