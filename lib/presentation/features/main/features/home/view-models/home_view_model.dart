@@ -67,9 +67,6 @@ class HomeViewModel {
           CameraUpdate.newLatLng(LatLng(marker[1][0], marker[1][1])));
     } catch (e) {
       readHomeCubit.changeEvent("");
-      controller.animateCamera(
-        CameraUpdate.newLatLng(readHomeCubit.state.myPosition),
-      );
     }
   }
 }

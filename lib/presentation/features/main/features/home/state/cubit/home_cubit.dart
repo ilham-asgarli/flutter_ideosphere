@@ -23,6 +23,12 @@ class HomeCubit extends HydratedCubit<HomeState> {
     emit(state.copyWith(
       markerId: markerId == state.markerId ? "" : markerId,
     ));
+
+    if (state.markerId == "") {
+      homeViewModel.controller.animateCamera(
+        CameraUpdate.newLatLng(state.myPosition),
+      );
+    }
   }
 
   @override
