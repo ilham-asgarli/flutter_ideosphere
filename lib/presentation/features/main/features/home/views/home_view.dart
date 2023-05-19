@@ -33,7 +33,7 @@ class HomeView extends StatelessWidget {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Visibility(
-                visible: context.watch<HomeCubit>().state.markerId.isNotEmpty,
+                visible: context.watch<HomeCubit>().state.isChosenMarker,
                 child: ExpandablePageView.builder(
                   itemCount: 5,
                   controller: readHomeCubit.homeViewModel.pageController,

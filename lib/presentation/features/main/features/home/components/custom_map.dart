@@ -12,7 +12,6 @@ class CustomMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeCubit readHomeCubit = context.read<HomeCubit>();
-    final HomeCubit watchHomeCubit = context.watch<HomeCubit>();
 
     return GoogleMap(
       padding: EdgeInsets.only(
@@ -34,26 +33,42 @@ class CustomMap extends StatelessWidget {
       },
       markers: readHomeCubit.homeViewModel.events.map(
         (e) {
-          return Marker(
-            markerId: MarkerId(e[0]),
-            position: LatLng(
-              e[1][0],
-              e[1][1],
-            ),
-            icon: BitmapDescriptor.defaultMarkerWithHue(
-              e[0] == watchHomeCubit.state.markerId
-                  ? BitmapDescriptor.hueAzure
-                  : BitmapDescriptor.hueRed,
-            ),
-            onTap: () {
-              readHomeCubit.homeViewModel.onTapMarker(context, e[0]);
-            },
-          );
+          return buildMarker(e, context);
         },
       ).toSet(),
       myLocationEnabled: true,
       zoomControlsEnabled: false,
       myLocationButtonEnabled: false,
+    );
+  }
+
+  Marker buildMarker(e, BuildContext context) {
+    final HomeCubit readHomeCubit = context.read<HomeCubit>();
+
+    return Marker(
+      markerId: MarkerId(e[0]),
+      position: LatLng(e[1][0], e[1][1]),
+      icon: BitmapDescriptor.defaultMarkerWithHue(
+        (context.watch<HomeCubit>().state.isChosenMarker &&
+                e[0] ==
+                    context
+                        .watch<HomeCubit>()
+                        .state
+                        .chosenMarker
+                        .markerId
+                        .value)
+            ? BitmapDescriptor.hueAzure
+            : BitmapDescriptor.hueRed,
+      ),
+      onTap: () {
+        readHomeCubit.homeViewModel.onTapMarker(
+          context,
+          Marker(
+            markerId: MarkerId(e[0]),
+            position: LatLng(e[1][0], e[1][1]),
+          ),
+        );
+      },
     );
   }
 }

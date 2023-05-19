@@ -34,27 +34,27 @@ class HomeViewModel {
     ],
   ];
 
-  onTapMarker(BuildContext context, String id) {
+  void onTapMarker(BuildContext context, Marker marker) {
     final HomeCubit readHomeCubit = context.read<HomeCubit>();
 
-    if (readHomeCubit.state.markerId.isNotEmpty &&
-        readHomeCubit.state.markerId != id) {
-      // TODO get marker id and change selected page
-      pageController.animateToPage(
-        int.parse(id),
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.ease,
-      );
-    } else {
-      if (readHomeCubit.state.markerId.isEmpty) {
-        // TODO get marker id and change pageView elements
+    if (readHomeCubit.state.isChosenMarker) {
+      if (readHomeCubit.state.chosenMarker.markerId.value !=
+          marker.markerId.value) {
+        // TODO get marker index and change selected page
+        pageController.animateToPage(
+          int.parse(marker.markerId.value),
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.ease,
+        );
+      } else {
+        readHomeCubit.changeChosenEvent(marker);
       }
-
-      readHomeCubit.changeEvent(id);
+    } else {
+      readHomeCubit.changeChosenEvent(marker);
     }
   }
 
-  onEventPageChanged(BuildContext context, int index) {
+  void onEventPageChanged(BuildContext context, int index) {
     final HomeCubit readHomeCubit = context.read<HomeCubit>();
 
     // TODO get marker id and change chosen marker
@@ -62,11 +62,16 @@ class HomeViewModel {
       List<dynamic> marker =
           events.firstWhere((element) => element[0] == index.toString());
 
-      readHomeCubit.changeEvent(index.toString());
-      controller.animateCamera(
-          CameraUpdate.newLatLng(LatLng(marker[1][0], marker[1][1])));
+      readHomeCubit.changeChosenEvent(
+        Marker(
+          markerId: MarkerId(
+            index.toString(),
+          ),
+          position: LatLng(marker[1][0], marker[1][1]),
+        ),
+      );
     } catch (e) {
-      readHomeCubit.changeEvent("");
+      readHomeCubit.changeChosenEvent(readHomeCubit.state.chosenMarker);
     }
   }
 }

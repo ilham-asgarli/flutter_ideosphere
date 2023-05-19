@@ -19,16 +19,18 @@ class HomeCubit extends HydratedCubit<HomeState> {
     );
   }
 
-  void changeEvent(String? markerId) {
+  void changeChosenEvent(Marker chosenMarker) {
     emit(state.copyWith(
-      markerId: markerId == state.markerId ? "" : markerId,
+      chosenMarker: chosenMarker,
+      isChosenMarker:
+          chosenMarker.markerId.value != state.chosenMarker.markerId.value
+              ? true
+              : (!state.isChosenMarker),
     ));
 
-    if (state.markerId == "") {
-      homeViewModel.controller.animateCamera(
-        CameraUpdate.newLatLng(state.myPosition),
-      );
-    }
+    homeViewModel.controller.animateCamera(CameraUpdate.newLatLng(
+      state.isChosenMarker ? state.chosenMarker.position : state.myPosition,
+    ));
   }
 
   @override
