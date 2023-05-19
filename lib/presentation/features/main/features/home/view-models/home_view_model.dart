@@ -35,7 +35,7 @@ class HomeViewModel {
   ];
 
   onTapMarker(BuildContext context, String id) {
-    HomeCubit readHomeCubit = context.read<HomeCubit>();
+    final HomeCubit readHomeCubit = context.read<HomeCubit>();
 
     if (readHomeCubit.state.markerId.isNotEmpty &&
         readHomeCubit.state.markerId != id) {
@@ -55,7 +55,7 @@ class HomeViewModel {
   }
 
   onEventPageChanged(BuildContext context, int index) {
-    HomeCubit readHomeCubit = context.read<HomeCubit>();
+    final HomeCubit readHomeCubit = context.read<HomeCubit>();
 
     // TODO get marker id and change chosen marker
     try {

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../../../core/extensions/context_extension.dart';
 import '../../../../../../utils/logic/helpers/google-maps/google_maps_helper.dart';
 import '../../../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../../../components/custom_circle_button.dart';
 import '../../../../../widgets/expandable_page_view.dart';
+import '../components/custom_map.dart';
 import '../components/event_card.dart';
 import '../state/cubit/home_cubit.dart';
 
@@ -17,8 +17,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HomeCubit readHomeCubit = context.read<HomeCubit>();
-    HomeCubit watchHomeCubit = context.watch<HomeCubit>();
+    final HomeCubit readHomeCubit = context.read<HomeCubit>();
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
@@ -26,48 +25,7 @@ class HomeView extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          GoogleMap(
-            padding: EdgeInsets.only(
-              top: context.topPadding,
-            ),
-            initialCameraPosition: CameraPosition(
-              target: readHomeCubit.state.myPosition,
-              zoom: 10.5,
-            ),
-            onMapCreated: (controller) async {
-              /*String dark =
-                  await rootBundle.loadString('assets/google-maps/dark.txt');
-              controller.setMapStyle(dark);*/
-
-              readHomeCubit.homeViewModel.controller = controller;
-              readHomeCubit.setMyPosition(
-                await GoogleMapsHelper.instance
-                    .animateCameraToMyLocation(controller),
-              );
-            },
-            markers: readHomeCubit.homeViewModel.events.map(
-              (e) {
-                return Marker(
-                  markerId: MarkerId(e[0]),
-                  position: LatLng(
-                    e[1][0],
-                    e[1][1],
-                  ),
-                  icon: BitmapDescriptor.defaultMarkerWithHue(
-                    e[0] == watchHomeCubit.state.markerId
-                        ? BitmapDescriptor.hueAzure
-                        : BitmapDescriptor.hueRed,
-                  ),
-                  onTap: () {
-                    readHomeCubit.homeViewModel.onTapMarker(context, e[0]);
-                  },
-                );
-              },
-            ).toSet(),
-            myLocationEnabled: true,
-            zoomControlsEnabled: false,
-            myLocationButtonEnabled: false,
-          ),
+          const CustomMap(),
           Positioned(
             bottom: 70,
             left: 0,
