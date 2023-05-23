@@ -45,15 +45,17 @@ class _EventPageViewState extends State<EventPageView>
         }
       },
       child: SlideTransition(
-        position: Tween<Offset>(begin: const Offset(0, 1), end: Offset.zero)
-            .animate(animationController),
+        position: Tween<Offset>(
+          begin: const Offset(0, 1),
+          end: Offset.zero,
+        ).animate(animationController),
         child: ExpandablePageView.builder(
           itemCount: 5,
           controller: readHomeCubit.homeViewModel.pageController,
           padEnds: false,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
-            return const EventCard();
+            return EventCard(index: index);
           },
           onPageChanged: (index) {
             readHomeCubit.homeViewModel.onEventPageChanged(context, index);

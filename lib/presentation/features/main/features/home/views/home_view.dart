@@ -5,6 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../../core/extensions/context_extension.dart';
 import '../../../../../../core/extensions/num_extension.dart';
+import '../../../../../../core/router/core/router_service.dart';
+import '../../../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../../../utils/logic/helpers/google-maps/google_maps_helper.dart';
 import '../../../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../../../components/custom_circle_button.dart';
@@ -39,7 +41,7 @@ class HomeView extends StatelessWidget {
                   readHomeCubit
                       .changeChosenEvent(readHomeCubit.state.chosenMarker);
                 },
-              ), //EventPageView(),
+              ),
             ),
           ),
           Positioned(
@@ -67,7 +69,11 @@ class HomeView extends StatelessWidget {
                     FontAwesomeIcons.plus,
                     size: 15,
                   ),
-                  onTap: () async {},
+                  onTap: () {
+                    RouterService.instance.pushNamed(
+                      path: RouterConstants.startEvent,
+                    );
+                  },
                 ),
               ],
             ),

@@ -28,31 +28,43 @@ class ChatsItem extends StatelessWidget {
         ),
         leading: buildProfilePhoto(),
         title: Text(
-          /*chatContactController?.fullName ??*/ "",
+          /*chatContactController?.fullName ??*/
+          "Seçim etkinliği",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           softWrap: false,
         ),
         subtitle: Text(
-          /*chatContactController?.role ??*/ "",
+          /*chatContactController?.role ??*/
+          "Organizatör",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           softWrap: false,
         ),
-        trailing: SizedBox(
-          width: 20,
-          child: (/*chatContactController?.unreadMessagesCount ??*/ 0) > 0
-              ? CircleAvatar(
-                  backgroundColor: Colors.green,
-                  child: Text(
-                    "${/*chatContactController?.unreadMessagesCount ??*/ 0}",
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                    ),
+        trailing: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            if (/*chatContactController?.unreadMessagesCount ??*/ 1 > 0) ...[
+              Text(
+                "12:53",
+                style: const TextStyle(
+                  fontSize: 10,
+                ),
+              ),
+              CircleAvatar(
+                radius: 10,
+                backgroundColor: AppColors.thirdColor,
+                child: Text(
+                  "${/*chatContactController?.unreadMessagesCount*/ 1}",
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
                   ),
-                )
-              : const SizedBox(),
+                ),
+              ),
+            ],
+          ],
         ),
         onTap: () {
           RouterService.instance.pushNamed(

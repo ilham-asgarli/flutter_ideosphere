@@ -3,11 +3,18 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/extensions/context_extension.dart';
 import '../../../../../../core/extensions/num_extension.dart';
+import '../../../../../../core/router/core/router_service.dart';
+import '../../../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../../../components/custom_button.dart';
 
 class EventCard extends StatefulWidget {
-  const EventCard({Key? key}) : super(key: key);
+  final int index;
+
+  const EventCard({
+    Key? key,
+    required this.index,
+  }) : super(key: key);
 
   @override
   State<EventCard> createState() => _EventCardState();
@@ -16,16 +23,23 @@ class EventCard extends StatefulWidget {
 class _EventCardState extends State<EventCard> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: context.paddingLow,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: AppColors.mainColor2,
-        ),
-        child: Padding(
-          padding: context.paddingNormal,
-          child: buildContent(),
+    return InkWell(
+      onTap: () {
+        RouterService.instance.pushNamed(
+          path: RouterConstants.event,
+        );
+      },
+      child: Padding(
+        padding: context.paddingLow,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: AppColors.mainColor2,
+          ),
+          child: Padding(
+            padding: context.paddingNormal,
+            child: buildContent(),
+          ),
         ),
       ),
     );
@@ -106,16 +120,20 @@ class _EventCardState extends State<EventCard> {
             Expanded(
               child: Column(
                 children: [
-                  Container(
-                    width: double.infinity,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      image: const DecorationImage(
-                        image: CachedNetworkImageProvider(
-                          'https://media.istockphoto.com/id/499517325/photo/a-man-speaking-at-a-business-conference.jpg?s=612x612&w=0&k=20&c=gWTTDs_Hl6AEGOunoQ2LsjrcTJkknf9G8BGqsywyEtE=',
+                  Hero(
+                    tag: "image_${widget.index}",
+                    transitionOnUserGestures: true,
+                    child: Container(
+                      width: double.infinity,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        image: const DecorationImage(
+                          image: CachedNetworkImageProvider(
+                            "https://media.istockphoto.com/id/499517325/photo/a-man-speaking-at-a-business-conference.jpg?s=612x612&w=0&k=20&c=gWTTDs_Hl6AEGOunoQ2LsjrcTJkknf9G8BGqsywyEtE=",
+                          ),
+                          fit: BoxFit.cover,
                         ),
-                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
