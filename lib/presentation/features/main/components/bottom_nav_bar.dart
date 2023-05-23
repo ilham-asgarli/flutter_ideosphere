@@ -15,17 +15,14 @@ class BottomNavBar extends StatelessWidget {
     return Card(
       margin: EdgeInsets.zero,
       color: AppColors.mainColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.zero,
-      ),
       child: Column(
         children: [
-          Divider(
+          const Divider(
             height: 0,
             color: AppColors.mainColor2,
           ),
           Padding(
-            padding: context.paddingNormal * 0.5,
+            padding: context.paddingLow,
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -42,7 +39,7 @@ class BottomNavBar extends StatelessWidget {
     );
   }
 
-  buildButton(BuildContext context, int index) {
+  Widget buildButton(BuildContext context, int index) {
     return CustomCircleButton(
       color: context.watch<MainNavBarCubit>().state.index == index
           ? null

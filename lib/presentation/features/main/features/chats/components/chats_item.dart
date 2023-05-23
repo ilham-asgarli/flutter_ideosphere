@@ -23,6 +23,12 @@ class ChatsItem extends StatelessWidget {
       ),
       color: AppColors.mainColor2,
       child: ListTile(
+        onTap: () {
+          RouterService.instance.pushNamed(
+            path: RouterConstants.chat,
+            //data: chatContactController,
+          );
+        },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
         ),
@@ -66,12 +72,6 @@ class ChatsItem extends StatelessWidget {
             ],
           ],
         ),
-        onTap: () {
-          RouterService.instance.pushNamed(
-            path: RouterConstants.chat,
-            //data: chatContactController,
-          );
-        },
       ),
     );
   }

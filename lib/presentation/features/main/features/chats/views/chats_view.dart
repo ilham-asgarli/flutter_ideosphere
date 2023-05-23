@@ -20,11 +20,9 @@ class ChatsView extends StatelessWidget {
               cacheExtent: 1,
               itemCount: 15,
               itemBuilder: (context, index) {
-                return InkWell(
-                  child: ChatsItem(
-                      //chatContactController: chatContactControllers?[index],
-                      ),
-                );
+                return ChatsItem(
+                    //chatContactController: chatContactControllers?[index],
+                    );
               },
               separatorBuilder: (BuildContext context, int index) {
                 return const SizedBox(
@@ -32,7 +30,7 @@ class ChatsView extends StatelessWidget {
                 );
               },
             ),
-            80.verticalSpace,
+            (context.lowValue * 2 + 50).verticalSpace,
           ],
         ),
       ),
