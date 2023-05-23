@@ -50,7 +50,7 @@ class HomeView extends StatelessWidget {
             child: Column(
               children: [
                 CustomCircleButton(
-                  color: AppColors.mainColor2,
+                  color: AppColors.mainColor,
                   child: const FaIcon(
                     FontAwesomeIcons.locationCrosshairs,
                   ),
@@ -64,7 +64,7 @@ class HomeView extends StatelessWidget {
                 ),
                 5.verticalSpace,
                 CustomCircleButton(
-                  color: AppColors.mainColor2,
+                  color: AppColors.mainColor,
                   child: const FaIcon(
                     FontAwesomeIcons.plus,
                     size: 15,
