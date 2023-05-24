@@ -7,6 +7,9 @@ import '../../../../../../core/router/core/router_service.dart';
 import '../../../../../../utils/logic/constants/router/router_constants.dart';
 import '../../../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../../../components/custom_button.dart';
+import '../../../components/event_notes.dart';
+import '../../../components/event_organizer.dart';
+import '../../../components/event_times.dart';
 
 class EventCard extends StatefulWidget {
   final int index;
@@ -73,46 +76,9 @@ class _EventCardState extends State<EventCard> {
                     ),
                   ),
                   10.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.timer_outlined,
-                            color: Colors.green,
-                            size: 15,
-                          ),
-                          5.horizontalSpace,
-                          Text("28.04.2023"),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.timer,
-                            color: Colors.red,
-                            size: 15,
-                          ),
-                          5.horizontalSpace,
-                          Text("28.05.2023"),
-                        ],
-                      ),
-                    ],
-                  ),
+                  const EventTimes(),
                   15.verticalSpace,
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundImage: CachedNetworkImageProvider(
-                            "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=600&q=60"),
-                      ),
-                      10.horizontalSpace,
-                      Expanded(
-                        child: Text("Organizer Organizer"),
-                      ),
-                    ],
-                  ),
+                  const EventOrganizer(),
                 ],
               ),
             ),
@@ -157,77 +123,7 @@ class _EventCardState extends State<EventCard> {
           ],
         ),
         10.verticalSpace,
-        Row(
-          children: [
-            const Icon(
-              Icons.info_outline_rounded,
-              size: 15,
-            ),
-            5.horizontalSpace,
-            Expanded(
-              child: Text(
-                "Katılımcı sayısı (geçerli/limit): 100/150",
-                style: TextStyle(
-                  fontSize: 12,
-                ),
-              ),
-            ),
-          ],
-        ),
-        5.verticalSpace,
-        Row(
-          children: [
-            const Icon(
-              Icons.info_outline_rounded,
-              size: 15,
-            ),
-            5.horizontalSpace,
-            Expanded(
-              child: Text(
-                "Yaş (min./maks.): 10/50",
-                style: TextStyle(
-                  fontSize: 12,
-                ),
-              ),
-            ),
-          ],
-        ),
-        5.verticalSpace,
-        Row(
-          children: [
-            const Icon(
-              Icons.info_outline_rounded,
-              size: 15,
-            ),
-            5.horizontalSpace,
-            Expanded(
-              child: Text(
-                "Hem erkek, hem kadın katılımcılar için uygundur.",
-                style: TextStyle(
-                  fontSize: 12,
-                ),
-              ),
-            ),
-          ],
-        ),
-        5.verticalSpace,
-        Row(
-          children: [
-            const Icon(
-              Icons.location_on_rounded,
-              size: 15,
-            ),
-            5.horizontalSpace,
-            Expanded(
-              child: Text(
-                "Ecla Sk. No2A, Merkez mah. İstanbul/Türkiye",
-                style: TextStyle(
-                  fontSize: 12,
-                ),
-              ),
-            ),
-          ],
-        ),
+        const EventNotes(),
       ],
     );
   }
