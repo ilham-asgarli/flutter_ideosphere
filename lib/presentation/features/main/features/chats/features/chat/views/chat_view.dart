@@ -14,9 +14,9 @@ class ChatView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(),
+        titleSpacing: 0,
         title: Text(
-          /*_chatViewModel.chatContactController?.fullName ??*/ "",
+          /*_chatViewModel.chatContactController?.fullName ??*/ "Etkinlik ismi",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           softWrap: false,
@@ -27,61 +27,61 @@ class ChatView extends StatelessWidget {
           owner: true,
           NEW: true,
           dateTime: "2012-02-27 13:27:00",
-          message: "Hello",
+          message: "Lorem Ipsum",
         ),
         Message(
           owner: false,
           NEW: true,
           dateTime: "2012-02-27 13:27:00",
-          message: "Hello",
+          message: "Lorem Ipsum",
         ),
         Message(
           owner: true,
           NEW: true,
           dateTime: "2012-02-27 13:27:00",
-          message: "Hello",
+          message: "Lorem Ipsum",
         ),
         Message(
           owner: false,
           NEW: true,
           dateTime: "2012-02-27 13:27:00",
-          message: "Hello",
+          message: "Lorem Ipsum",
         ),
         Message(
           owner: true,
           NEW: true,
           dateTime: "2012-02-27 13:27:00",
-          message: "Hello",
+          message: "Lorem Ipsum",
         ),
         Message(
           owner: true,
           NEW: true,
           dateTime: "2012-02-27 13:27:00",
-          message: "Hello",
+          message: "Lorem Ipsum",
         ),
         Message(
           owner: false,
           NEW: true,
           dateTime: "2012-02-27 13:27:00",
-          message: "Hello",
+          message: "Lorem Ipsum",
         ),
         Message(
           owner: true,
           NEW: true,
           dateTime: "2012-02-27 13:27:00",
-          message: "Hello",
+          message: "Lorem Ipsum",
         ),
         Message(
           owner: false,
           NEW: true,
           dateTime: "2012-02-27 13:27:00",
-          message: "Hello",
+          message: "Lorem Ipsum",
         ),
         Message(
           owner: true,
           NEW: true,
           dateTime: "2012-02-27 13:27:00",
-          message: "Hello",
+          message: "Lorem Ipsum",
         ),
       ]),
     );
