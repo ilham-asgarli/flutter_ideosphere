@@ -53,6 +53,7 @@ class HomeView extends StatelessWidget {
                   color: AppColors.mainColor,
                   child: const FaIcon(
                     FontAwesomeIcons.locationCrosshairs,
+                    color: Colors.white,
                   ),
                   onTap: () async {
                     readHomeCubit.setMyPosition(
@@ -68,9 +69,11 @@ class HomeView extends StatelessWidget {
                   child: const FaIcon(
                     FontAwesomeIcons.plus,
                     size: 15,
+                    color: Colors.white,
                   ),
                   onTap: () {
                     RouterService.instance.pushNamed(
+                      context: context,
                       path: RouterConstants.startEvent,
                     );
                   },

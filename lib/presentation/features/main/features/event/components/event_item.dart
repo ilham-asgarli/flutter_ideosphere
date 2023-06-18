@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../core/extensions/context_extension.dart';
 import '../../../../../../core/extensions/num_extension.dart';
+import '../../../../../../core/extensions/string_extension.dart';
+import '../../../../../../data/models/event.dart';
 import '../../../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../../../components/custom_button.dart';
 import '../../../../../widgets/fade_single_child_scroll_view.dart';
@@ -11,7 +13,12 @@ import '../../../components/event_times.dart';
 import 'event_image_page_view.dart';
 
 class EventItem extends StatelessWidget {
-  const EventItem({Key? key}) : super(key: key);
+  final Event eventModel;
+
+  const EventItem({
+    Key? key,
+    required this.eventModel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,31 +30,39 @@ class EventItem extends StatelessWidget {
             padding: context.paddingLow,
             child: Column(
               children: [
-                Expanded(
-                  child: FadeSingleChildScrollView(
-                    fadeSize: 30,
-                    color: AppColors.mainColor,
-                    child: Text(
-                      "What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
+                eventModel.description.isNotNull
+                    ? Expanded(
+                        child: FadeSingleChildScrollView(
+                          fadeSize: 30,
+                          color: AppColors.mainColor,
+                          child: Text(
+                            eventModel.description!,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      )
+                    : const Spacer(),
+                20.verticalSpace,
+                EventTimes(
+                  eventModel: eventModel,
                 ),
                 20.verticalSpace,
-                const EventTimes(),
-                20.verticalSpace,
-                const EventOrganizer(),
+                EventOrganizer(
+                  eventModel: eventModel,
+                ),
                 10.verticalSpace,
-                const EventNotes(),
+                EventNotes(
+                  eventModel: eventModel,
+                ),
                 10.verticalSpace,
                 Row(
                   children: [
                     Expanded(
                       child: Text(
-                        "Ücretsiz",
-                        style: TextStyle(
+                        eventModel.entryFee?.toStringAsFixed(2) ?? "Ücretsiz",
+                        style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                         ),

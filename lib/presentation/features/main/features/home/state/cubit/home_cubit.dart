@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -7,9 +8,13 @@ import '../../view-models/home_view_model.dart';
 part 'home_state.dart';
 
 class HomeCubit extends HydratedCubit<HomeState> {
-  final HomeViewModel homeViewModel = HomeViewModel();
+  final BuildContext context;
 
-  HomeCubit() : super(HomeState());
+  HomeCubit(this.context) : super(const HomeState()) {
+    homeViewModel = HomeViewModel(this, context);
+  }
+
+  late final HomeViewModel homeViewModel;
 
   Future<void> setMyPosition(Position position) async {
     emit(
@@ -19,17 +24,24 @@ class HomeCubit extends HydratedCubit<HomeState> {
     );
   }
 
-  void changeChosenEvent(Marker chosenMarker) {
+  void changeChosenEvent(Marker chosenMarker, {bool? triggerPageListener}) {
     emit(state.copyWith(
       chosenMarker: chosenMarker,
       isChosenMarker:
           chosenMarker.markerId.value != state.chosenMarker.markerId.value
               ? true
               : (!state.isChosenMarker),
+      triggerPageListener: triggerPageListener,
     ));
 
     homeViewModel.controller.animateCamera(CameraUpdate.newLatLng(
       state.isChosenMarker ? state.chosenMarker.position : state.myPosition,
+    ));
+  }
+
+  void changeTriggerPageListener(bool triggerPageListener) {
+    emit(state.copyWith(
+      triggerPageListener: triggerPageListener,
     ));
   }
 

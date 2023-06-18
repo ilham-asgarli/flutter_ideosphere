@@ -1,0 +1,14 @@
+{
+  "notFoundNavigation": "403",
+  "noInternet": "İnternet bağlantınız yok.",
+  "continue_" : "Devam et",
+  "signDescription": "Kolayca bağlantı kurun ve yeni insanlarla tanışın. Sosyalleşmeyi basit ve eğlenceli hale getirin, yakınınızdaki etkinlikleri keşfedin ve buluşmaya başlayın!",
+  "welcome": "Hoş Geldiniz!",
+  "termOfUse": "Kullanım Koşulları",
+  "termOfUseDescription": "Uygulamayı kullanarak {termOfUse}''nı kabul etmiş olursunuz.",
+  "email": "Eposta",
+  "password": "Şifre",
+  "signIn": "Giriş yap",
+  "signUp": "Kayıt ol",
+  "eventGender": "{count, plural, =0{Sadece erkek katılımcılar için uygundur.} =1{Sadece kadın katılımcılar için uygundur.} =2{Hem erkek, hem kadın katılımcılar için uygundur.} other{}}"
+}

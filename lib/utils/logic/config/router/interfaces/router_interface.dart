@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 abstract class RouterInterface {
   Route<dynamic> generateRoute(RouteSettings settings);
 
-  MaterialPageRoute normalNavigate(Widget widget, String pageName) {
-    return MaterialPageRoute(
+  MaterialPageRoute normalNavigate<T>(Widget widget, RouteSettings? settings) {
+    return MaterialPageRoute<T>(
       builder: (context) => widget,
-      settings: RouteSettings(name: pageName),
+      settings: settings,
     );
   }
 }

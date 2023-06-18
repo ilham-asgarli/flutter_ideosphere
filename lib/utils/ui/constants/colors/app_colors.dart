@@ -5,7 +5,7 @@ class AppColors {
   static const Color mainColor1 = Color(0xFF22272F);
   static const Color mainColor2 = Color(0xFF30353F);
 
-  static Color secondColor = Colors.white;
+  static const Color secondColor = Colors.white;
   static const Color thirdColor = Color(0xFF52889F);
 
   static const Color light = Colors.white;

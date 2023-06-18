@@ -1,18 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../../core/extensions/date_time_extension.dart';
 import '../../../../../../core/router/core/router_service.dart';
 import '../../../../../../utils/logic/constants/router/router_constants.dart';
+import '../../../../../../utils/logic/state/cubit/chat-socket/chat_socket_cubit.dart';
 import '../../../../../../utils/ui/constants/assets/image_constants.dart';
 import '../../../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../../../widgets/image_placeholder.dart';
 
 class ChatsItem extends StatelessWidget {
-  //final ChatContactController? chatContactController;
+  final int index;
 
   const ChatsItem({
     Key? key,
-    //required this.chatContactController,
+    required this.index,
   }) : super(key: key);
 
   @override
@@ -26,7 +29,7 @@ class ChatsItem extends StatelessWidget {
         onTap: () {
           RouterService.instance.pushNamed(
             path: RouterConstants.chat,
-            //data: chatContactController,
+            data: context.read<ChatSocketCubit>().state.chats[index].chatModel,
           );
         },
         shape: RoundedRectangleBorder(
@@ -34,15 +37,20 @@ class ChatsItem extends StatelessWidget {
         ),
         leading: buildProfilePhoto(),
         title: Text(
-          /*chatContactController?.fullName ??*/
-          "Seçim etkinliği",
+          context.watch<ChatSocketCubit>().state.chats[index].chatModel.name,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           softWrap: false,
         ),
         subtitle: Text(
-          /*chatContactController?.role ??*/
-          "Organizatör",
+          context
+                  .watch<ChatSocketCubit>()
+                  .state
+                  .chats[index]
+                  .chatMessageModels
+                  .firstOrNull
+                  ?.message ??
+              "",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           softWrap: false,
@@ -51,25 +59,44 @@ class ChatsItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            if (/*chatContactController?.unreadMessagesCount ??*/ 1 > 0) ...[
-              Text(
-                "12:53",
-                style: const TextStyle(
-                  fontSize: 10,
-                ),
+            Text(
+              (context
+                          .watch<ChatSocketCubit>()
+                          .state
+                          .chats[index]
+                          .chatMessageModels
+                          .firstOrNull
+                          ?.createdAt ??
+                      context
+                          .read<ChatSocketCubit>()
+                          .state
+                          .chats[index]
+                          .chatModel
+                          .createdAt)
+                  .formatForToday,
+              style: const TextStyle(
+                fontSize: 10,
               ),
+            ),
+            if (context
+                .watch<ChatSocketCubit>()
+                .state
+                .chats[index]
+                .chatMessageModels
+                .where((e) => e.opened == false)
+                .toList()
+                .isNotEmpty)
               CircleAvatar(
                 radius: 10,
                 backgroundColor: AppColors.thirdColor,
                 child: Text(
-                  "${/*chatContactController?.unreadMessagesCount*/ 1}",
+                  "${context.watch<ChatSocketCubit>().state.chats[index].chatMessageModels.where((e) => e.opened == false).toList().length}",
                   style: const TextStyle(
                     fontSize: 12,
                     color: Colors.white,
                   ),
                 ),
               ),
-            ],
           ],
         ),
       ),

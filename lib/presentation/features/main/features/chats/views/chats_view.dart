@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/extensions/context_extension.dart';
 import '../../../../../../core/extensions/num_extension.dart';
+import '../../../../../../utils/logic/state/cubit/chat-socket/chat_socket_cubit.dart';
 import '../components/chats_item.dart';
 
 class ChatsView extends StatelessWidget {
@@ -18,11 +20,11 @@ class ChatsView extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               padding: context.paddingLow,
               cacheExtent: 1,
-              itemCount: 15,
+              itemCount: context.watch<ChatSocketCubit>().state.chats.length,
               itemBuilder: (context, index) {
                 return ChatsItem(
-                    //chatContactController: chatContactControllers?[index],
-                    );
+                  index: index,
+                );
               },
               separatorBuilder: (BuildContext context, int index) {
                 return const SizedBox(

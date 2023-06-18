@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../../../core/extensions/context_extension.dart';
-import '../../../../../../utils/logic/helpers/google-maps/google_maps_helper.dart';
+import '../../../../../../data/models/event.dart';
+import '../../../../../../utils/logic/state/cubit/chat-socket/chat_socket_cubit.dart';
 import '../state/cubit/home_cubit.dart';
 
 class CustomMap extends StatelessWidget {
@@ -21,17 +22,8 @@ class CustomMap extends StatelessWidget {
         target: readHomeCubit.state.myPosition,
         zoom: 10.5,
       ),
-      onMapCreated: (controller) async {
-        /*String dark =
-                  await rootBundle.loadString('assets/google-maps/dark.txt');
-              controller.setMapStyle(dark);*/
-
-        readHomeCubit.homeViewModel.controller = controller;
-        readHomeCubit.setMyPosition(
-          await GoogleMapsHelper.instance.animateCameraToMyLocation(controller),
-        );
-      },
-      markers: readHomeCubit.homeViewModel.events.map(
+      onMapCreated: readHomeCubit.homeViewModel.onMapCreated,
+      markers: context.watch<ChatSocketCubit>().state.closeEvents.map(
         (e) {
           return buildMarker(e, context);
         },
@@ -42,15 +34,15 @@ class CustomMap extends StatelessWidget {
     );
   }
 
-  Marker buildMarker(e, BuildContext context) {
+  Marker buildMarker(Event e, BuildContext context) {
     final HomeCubit readHomeCubit = context.read<HomeCubit>();
 
     return Marker(
-      markerId: MarkerId(e[0]),
-      position: LatLng(e[1][0], e[1][1]),
+      markerId: MarkerId(e.id),
+      position: LatLng(e.location.latitude, e.location.longitude),
       icon: BitmapDescriptor.defaultMarkerWithHue(
         (context.watch<HomeCubit>().state.isChosenMarker &&
-                e[0] ==
+                e.id ==
                     context
                         .watch<HomeCubit>()
                         .state
@@ -62,10 +54,9 @@ class CustomMap extends StatelessWidget {
       ),
       onTap: () {
         readHomeCubit.homeViewModel.onTapMarker(
-          context,
           Marker(
-            markerId: MarkerId(e[0]),
-            position: LatLng(e[1][0], e[1][1]),
+            markerId: MarkerId(e.id),
+            position: LatLng(e.location.latitude, e.location.longitude),
           ),
         );
       },

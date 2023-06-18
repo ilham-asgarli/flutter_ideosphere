@@ -1,11 +1,14 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 import '../../../../../../../../core/extensions/context_extension.dart';
 import '../../../../../../../../core/extensions/num_extension.dart';
+import '../../../../../../../../utils/logic/state/cubit/chat-socket/chat_socket_cubit.dart';
 import '../../../../../../../../utils/ui/constants/colors/app_colors.dart';
 import '../components/message_bubble.dart';
+import '../state/chat_cubit.dart';
 
 class ChatView extends StatelessWidget {
   const ChatView({Key? key}) : super(key: key);
@@ -16,80 +19,18 @@ class ChatView extends StatelessWidget {
       appBar: AppBar(
         titleSpacing: 0,
         title: Text(
-          /*_chatViewModel.chatContactController?.fullName ??*/ "Etkinlik ismi",
+          context.read<ChatCubit>().chat.name,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           softWrap: false,
         ),
       ),
-      body: buildChat(context, [
-        Message(
-          owner: true,
-          NEW: true,
-          dateTime: "2012-02-27 13:27:00",
-          message: "Lorem Ipsum",
-        ),
-        Message(
-          owner: false,
-          NEW: true,
-          dateTime: "2012-02-27 13:27:00",
-          message: "Lorem Ipsum",
-        ),
-        Message(
-          owner: true,
-          NEW: true,
-          dateTime: "2012-02-27 13:27:00",
-          message: "Lorem Ipsum",
-        ),
-        Message(
-          owner: false,
-          NEW: true,
-          dateTime: "2012-02-27 13:27:00",
-          message: "Lorem Ipsum",
-        ),
-        Message(
-          owner: true,
-          NEW: true,
-          dateTime: "2012-02-27 13:27:00",
-          message: "Lorem Ipsum",
-        ),
-        Message(
-          owner: true,
-          NEW: true,
-          dateTime: "2012-02-27 13:27:00",
-          message: "Lorem Ipsum",
-        ),
-        Message(
-          owner: false,
-          NEW: true,
-          dateTime: "2012-02-27 13:27:00",
-          message: "Lorem Ipsum",
-        ),
-        Message(
-          owner: true,
-          NEW: true,
-          dateTime: "2012-02-27 13:27:00",
-          message: "Lorem Ipsum",
-        ),
-        Message(
-          owner: false,
-          NEW: true,
-          dateTime: "2012-02-27 13:27:00",
-          message: "Lorem Ipsum",
-        ),
-        Message(
-          owner: true,
-          NEW: true,
-          dateTime: "2012-02-27 13:27:00",
-          message: "Lorem Ipsum",
-        ),
-      ]),
+      body: buildChat(context),
     );
   }
 
   Widget buildChat(
     BuildContext context,
-    List<Message>? contents,
   ) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -97,19 +38,19 @@ class ChatView extends StatelessWidget {
         Expanded(
           child: LazyLoadScrollView(
             scrollOffset: context.height.toInt(),
-            //isLoading: _chatViewModel.chatNotifier.isLoadingOldMessages,
-            onEndOfPage: () {}, // => _chatViewModel.loadOldMessages(),
+            isLoading: context.read<ChatCubit>().state.loadingOldMessages,
+            onEndOfPage: () =>
+                context.read<ChatCubit>().chatViewModel.loadOldMessages(),
             child: SingleChildScrollView(
               reverse: true,
               child: Column(
                 children: [
                   10.verticalSpace,
                   Visibility(
-                    visible:
-                        false, //_chatViewModel.chatNotifier.isLoadingOldMessages,
+                    visible: context.read<ChatCubit>().state.loadingOldMessages,
                     child: const CircularProgressIndicator(),
                   ),
-                  buildMessages(context, contents),
+                  buildMessages(context),
                 ],
               ),
             ),
@@ -117,7 +58,7 @@ class ChatView extends StatelessWidget {
         ),
         Column(
           children: [
-            Divider(
+            const Divider(
               height: 0,
               color: AppColors.mainColor2,
             ),
@@ -129,12 +70,12 @@ class ChatView extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      child: buildTextField(),
+                      child: buildTextField(context),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
-                    buildSend(),
+                    buildSend(context),
                   ],
                 ),
               ),
@@ -147,20 +88,26 @@ class ChatView extends StatelessWidget {
 
   Widget buildMessages(
     BuildContext context,
-    List<Message>? contents,
   ) {
     return ListView.separated(
       padding: context.paddingNormal,
       physics: const NeverScrollableScrollPhysics(),
       cacheExtent: 1,
-      reverse: true,
       shrinkWrap: true,
-      itemCount: contents?.length ?? 0,
+      reverse: true,
+      itemCount: context
+          .watch<ChatSocketCubit>()
+          .state
+          .chats
+          .firstWhere((element) =>
+              element.chatModel.id == context.read<ChatCubit>().chat.id)
+          .chatMessageModels
+          .length,
       itemBuilder: (context, index) {
         return Column(
           children: [
             Visibility(
-              //visible: _chatViewModel.isNewDay(contents, index),
+              visible: context.read<ChatCubit>().chatViewModel.isNewDay(index),
               child: Padding(
                 padding: context.paddingLow,
                 child: Card(
@@ -169,16 +116,33 @@ class ChatView extends StatelessWidget {
                     padding: context.paddingLow,
                     child: Text(
                       DateFormat("dd.MM.yyyy").format(
-                        DateTime.parse(contents?[index].dateTime ?? ""),
+                        DateTime.parse(
+                          context
+                              .watch<ChatSocketCubit>()
+                              .state
+                              .chats
+                              .firstWhere((element) =>
+                                  element.chatModel.id ==
+                                  context.read<ChatCubit>().chat.id)
+                              .chatMessageModels[index]
+                              .createdAt
+                              .toString(),
+                        ),
                       ),
-                      style: TextStyle(color: AppColors.secondColor),
+                      style: const TextStyle(color: AppColors.secondColor),
                     ),
                   ),
                 ),
               ),
             ),
             MessageBubble(
-              message: contents?[index],
+              chatMessageModel: context
+                  .watch<ChatSocketCubit>()
+                  .state
+                  .chats
+                  .firstWhere((element) =>
+                      element.chatModel.id == context.read<ChatCubit>().chat.id)
+                  .chatMessageModels[index],
             ),
           ],
         );
@@ -191,43 +155,29 @@ class ChatView extends StatelessWidget {
     );
   }
 
-  buildTextField() {
+  buildTextField(BuildContext context) {
     return TextField(
-      //focusNode: focusNode,
       cursorColor: AppColors.secondColor,
-      style: TextStyle(
+      style: const TextStyle(
         color: AppColors.secondColor,
       ),
-      //controller: textEditingController,
+      controller: context.read<ChatCubit>().chatViewModel.textEditingController,
       maxLines: 1,
-      decoration: InputDecoration(
-        border: InputBorder.none, //OutlineInputBorder(),
+      decoration: const InputDecoration(
+        border: InputBorder.none,
         hintText: "Mesaj",
       ),
     );
   }
 
-  Widget buildSend() {
-    return false //_chatViewModel.chatNotifier.isSendingMessage
-        ? Container(
-            margin: const EdgeInsets.only(right: 15),
-            height: 20,
-            width: 20,
-            child: CircularProgressIndicator(
-              color: AppColors.secondColor,
-            ),
-          )
-        : IconButton(
-            color: AppColors.secondColor,
-            icon: const Icon(Icons.send),
-            onPressed: () {
-              /*_chatViewModel.sendMessage(
-                _chatViewModel.chatContactController?.username,
-                textEditingController.text,
-              );
-
-              textEditingController.clear();*/
-            },
-          );
+  Widget buildSend(BuildContext context) {
+    return IconButton(
+      color: AppColors.secondColor,
+      icon: const Icon(Icons.send),
+      onPressed: () {
+        context.read<ChatCubit>().chatViewModel.writeMessage();
+        context.read<ChatCubit>().chatViewModel.textEditingController.clear();
+      },
+    );
   }
 }

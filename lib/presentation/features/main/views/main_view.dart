@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../components/bottom_nav_bar.dart';
-import '../state/cubit/main-nav-bar/main_nav_bar_cubit.dart';
+import '../state/cubit/main-nav-bar/main_cubit.dart';
 
 class MainView extends StatelessWidget {
   const MainView({Key? key}) : super(key: key);
@@ -15,8 +15,8 @@ class MainView extends StatelessWidget {
           Positioned.fill(
             child: Center(
               child: IndexedStack(
-                index: context.watch<MainNavBarCubit>().state.index,
-                children: context.read<MainNavBarCubit>().items,
+                index: context.watch<MainCubit>().state.index,
+                children: context.read<MainCubit>().items,
               ),
             ),
           ),

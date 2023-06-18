@@ -2,9 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/num_extension.dart';
+import '../../../../data/models/event.dart';
 
 class EventOrganizer extends StatelessWidget {
-  const EventOrganizer({Key? key}) : super(key: key);
+  final Event eventModel;
+
+  const EventOrganizer({
+    Key? key,
+    required this.eventModel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +22,9 @@ class EventOrganizer extends StatelessWidget {
         ),
         10.horizontalSpace,
         Expanded(
-          child: Text("Organizer Organizer"),
+          child: Text(
+            "${eventModel.organizer.customer?.firstname} ${eventModel.organizer.customer?.lastname}",
+          ),
         ),
       ],
     );

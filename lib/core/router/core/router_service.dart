@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/app/global_key_constants.dart';
-import '../interfaces/router_service.dart';
+import '../interfaces/router_interface.dart';
 
-class RouterService implements IRouterService {
+class RouterService implements RouterInterface {
   static final RouterService instance = RouterService._init();
 
   GlobalKey<NavigatorState>? navigatorKey;
@@ -20,20 +20,31 @@ class RouterService implements IRouterService {
       (Route<dynamic> route) => false;
 
   @override
-  Future<void> pushNamed({required String path, Object? data}) async {
-    await navigatorKey?.currentState?.pushNamed(
+  Future<T?> pushNamed<T extends Object?>({
+    BuildContext? context,
+    required String path,
+    Object? data,
+  }) async {
+    return await (context != null
+            ? Navigator.of(context)
+            : navigatorKey?.currentState)
+        ?.pushNamed<T>(
       path,
       arguments: data,
     );
   }
 
   @override
-  Future<void> pushNamedAndRemoveUntil({
+  Future<T?> pushNamedAndRemoveUntil<T extends Object?>({
+    BuildContext? context,
     required String path,
     Object? data,
     String? removeUntilPageName,
   }) async {
-    await navigatorKey?.currentState?.pushNamedAndRemoveUntil(
+    return await (context != null
+            ? Navigator.of(context)
+            : navigatorKey?.currentState)
+        ?.pushNamedAndRemoveUntil<T>(
       path,
       removeUntilPageName == null
           ? removeAllOldRoutes
@@ -43,24 +54,33 @@ class RouterService implements IRouterService {
   }
 
   @override
-  Future<void> pushReplacementNamed(
-      {required String path, Object? data}) async {
-    await navigatorKey?.currentState?.pushReplacementNamed(
+  Future<T?> pushReplacementNamed<T extends Object?, TO extends Object?>({
+    BuildContext? context,
+    required String path,
+    Object? data,
+  }) async {
+    return await (context != null
+            ? Navigator.of(context)
+            : navigatorKey?.currentState)
+        ?.pushReplacementNamed<T, TO>(
       path,
       arguments: data,
     );
   }
 
   @override
-  void pop() async {
-    navigatorKey?.currentState?.pop();
+  void pop<T extends Object?>([BuildContext? context, T? result]) async {
+    (context != null ? Navigator.of(context) : navigatorKey?.currentState)
+        ?.pop(result);
   }
 
   @override
   void popUntil({
+    BuildContext? context,
     String? removeUntilPageName,
   }) {
-    navigatorKey?.currentState?.popUntil(
+    (context != null ? Navigator.of(context) : navigatorKey?.currentState)
+        ?.popUntil(
       removeUntilPageName == null
           ? removeAllOldRoutes
           : ModalRoute.withName(removeUntilPageName),

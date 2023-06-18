@@ -1,10 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
+import '../../../../core/constants/app/app_localizations.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
-import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
 import '../components/data_permission_text.dart';
 import '../components/sign_form.dart';
 
@@ -28,16 +27,20 @@ class SignInView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  LocaleKeys.welcome.tr(),
+                  AppLocalizations.of(context)!.welcome,
                   style: const TextStyle(
                     fontSize: 60,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
                 15.verticalSpace,
                 if (!isKeyboardVisible)
                   Text(
-                    LocaleKeys.signDescription.tr(),
+                    AppLocalizations.of(context)!.signDescription,
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
               ],
             ),
@@ -50,8 +53,9 @@ class SignInView extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: DataPermissionText(
-              text: LocaleKeys.termOfUseDescription.tr(),
-              regex: LocaleKeys.termOfUse.tr(),
+              text: AppLocalizations.of(context)!.termOfUseDescription(
+                  AppLocalizations.of(context)!.termOfUse),
+              regex: AppLocalizations.of(context)!.termOfUse,
               onTap: () {},
             ),
           ),

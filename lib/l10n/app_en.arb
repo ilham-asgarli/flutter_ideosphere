@@ -1,0 +1,14 @@
+{
+  "notFoundNavigation": "403",
+  "noInternet": "You don''t have internet connection.",
+  "continue_": "Continue",
+  "signDescription": "Connect and meet new people with ease. Make socializing simple and fun, discover events near you and start meeting!",
+  "welcome": "Welcome!" ,
+  "termOfUse": "Terms of Use",
+  "termOfUseDescription": "By using app, you agree to accept {termOfUse}.",
+  "email": "Email",
+  "password": "Password",
+  "signIn": "Sign in",
+  "signUp": "Sign up",
+  "eventGender": "{count, plural, =0{Only suitable for male participants.} =1{Only suitable for female participants.} =2{Suitable for both male and female participants.} other{}}"
+}

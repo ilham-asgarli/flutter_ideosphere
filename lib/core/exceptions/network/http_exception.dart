@@ -28,6 +28,10 @@ class UnauthorisedException extends HttpException {
   UnauthorisedException([message]) : super(message, "Unauthorised: ");
 }
 
+class NotFoundException extends HttpException {
+  NotFoundException([message]) : super(message, "Not Found: ");
+}
+
 class InvalidInputException extends HttpException {
   InvalidInputException([message]) : super(message, "Invalid Input: ");
 }

@@ -5,9 +5,11 @@ import '../../view-models/sign_view_model.dart';
 part 'sign_state.dart';
 
 class SignCubit extends Cubit<SignState> {
-  SignCubit() : super(SignState());
+  late final SignViewModel signViewModel;
 
-  final SignViewModel signViewModel = SignViewModel();
+  SignCubit() : super(SignState()) {
+    signViewModel = SignViewModel(this);
+  }
 
   void changeSigning({bool? signing}) {
     emit(state.copyWith(

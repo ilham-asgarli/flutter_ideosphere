@@ -14,11 +14,14 @@ class CustomTextField extends StatelessWidget {
   final double? fontSize, radius;
   final String obscuringCharacter;
   final int? maxLength;
+  final int? maxLines;
   final String? initialValue;
   final String? counterText;
   final List<TextInputFormatter>? inputFormatters;
   final FocusNode? focusNode;
   final EdgeInsetsGeometry? contentPadding;
+  final AutovalidateMode? autovalidateMode;
+  final TextEditingController? controller;
   final Function()? onTap;
   final Function(String)? onChanged;
   final FormFieldSetter<String>? onSaved;
@@ -45,9 +48,12 @@ class CustomTextField extends StatelessWidget {
     this.radius,
     this.textColor,
     this.focusNode,
+    this.autovalidateMode,
+    this.controller,
     this.onTap,
     this.onChanged,
     this.maxLength,
+    this.maxLines = 1,
     this.initialValue,
     this.counterText,
     this.inputFormatters,
@@ -56,12 +62,15 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       focusNode: focusNode,
       textInputAction: textInputAction,
       keyboardType: keyboardType,
       obscureText: obscureText,
       obscuringCharacter: obscuringCharacter,
       inputFormatters: inputFormatters,
+      autovalidateMode: autovalidateMode ?? AutovalidateMode.onUserInteraction,
+      validator: validator,
       onTap: onTap,
       onChanged: onChanged,
       onSaved: onSaved,
@@ -112,6 +121,7 @@ class CustomTextField extends StatelessWidget {
       ),
       maxLength: maxLength,
       initialValue: initialValue,
+      maxLines: maxLines,
     );
   }
 }

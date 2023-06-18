@@ -1,16 +1,16 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../../../core/extensions/context_extension.dart';
+import '../../../../../../../../data/models/chat_message.dart';
 import '../../../../../../../../utils/ui/constants/colors/app_colors.dart';
-import 'message_bubble.dart';
 
 class BubbleChild extends StatelessWidget {
-  final Message? message;
+  final ChatMessage chatMessageModel;
 
   const BubbleChild({
     Key? key,
-    required this.message,
+    required this.chatMessageModel,
   }) : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class BubbleChild extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            message?.message ?? "",
+            chatMessageModel.message,
             style: TextStyle(
               fontSize: 15,
               color: AppColors.secondColor,
@@ -31,7 +31,7 @@ class BubbleChild extends StatelessWidget {
             children: [
               Text(
                 DateFormat("HH:mm").format(
-                  DateTime.parse(message?.dateTime ?? ""),
+                  chatMessageModel.createdAt,
                 ),
                 style: TextStyle(
                   fontSize: 10,
@@ -40,7 +40,7 @@ class BubbleChild extends StatelessWidget {
                 ),
               ),
               Visibility(
-                visible: (message?.owner ?? true),
+                visible: chatMessageModel.owner,
                 child: Container(
                   margin: EdgeInsets.only(
                     bottom: context.lowValue / 3,
@@ -48,15 +48,15 @@ class BubbleChild extends StatelessWidget {
                   child: Row(
                     children: [
                       context.dynamicHorizontalSpace(0.01),
-                      (message?.NEW ?? true)
-                          ? Icon(
-                              Icons.done,
-                              color: AppColors.secondColor,
-                              size: 15,
-                            )
-                          : const Icon(
+                      chatMessageModel.readAll
+                          ? const Icon(
                               Icons.done_all,
                               color: Colors.cyanAccent,
+                              size: 15,
+                            )
+                          : Icon(
+                              Icons.done,
+                              color: AppColors.secondColor,
                               size: 15,
                             ),
                     ],

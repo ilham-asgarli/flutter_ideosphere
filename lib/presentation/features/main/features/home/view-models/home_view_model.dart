@@ -1,77 +1,100 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../../../../utils/logic/helpers/google-maps/google_maps_helper.dart';
+import '../../../../../../utils/logic/state/cubit/chat-socket/chat_socket_cubit.dart';
 import '../state/cubit/home_cubit.dart';
 
 class HomeViewModel {
+  final HomeCubit homeCubit;
+  final BuildContext context;
+
+  HomeViewModel(this.homeCubit, this.context);
+
   late final GoogleMapController controller;
-  PageController pageController = PageController(
+  final PageController pageController = PageController(
     viewportFraction: 0.9,
   );
 
-  List<List> events = [
-    [
-      "0",
-      [
-        41.11213,
-        28.9790,
-      ],
-    ],
-    [
-      "1",
-      [
-        41.015137,
-        28.979530,
-      ],
-    ],
-    [
-      "2",
-      [
-        41.01519,
-        28.8794,
-      ],
-    ],
-  ];
+  void onMapCreated(GoogleMapController controller) async {
+    /*String dark =
+                  await rootBundle.loadString('assets/google-maps/dark.txt');
+              controller.setMapStyle(dark);*/
 
-  void onTapMarker(BuildContext context, Marker marker) {
-    final HomeCubit readHomeCubit = context.read<HomeCubit>();
+    this.controller = controller;
 
-    if (readHomeCubit.state.isChosenMarker) {
-      if (readHomeCubit.state.chosenMarker.markerId.value !=
-          marker.markerId.value) {
-        // TODO get marker index and change selected page
-        pageController.animateToPage(
-          int.parse(marker.markerId.value),
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.ease,
-        );
-      } else {
-        readHomeCubit.changeChosenEvent(marker);
-      }
-    } else {
-      readHomeCubit.changeChosenEvent(marker);
+    Position position =
+        await GoogleMapsHelper.instance.animateCameraToMyLocation(controller);
+    homeCubit.setMyPosition(
+      position,
+    );
+
+    if (context.mounted) {
+      context.read<ChatSocketCubit>().channel.sink.add(
+            jsonEncode({
+              'name': 'close-events',
+              'body': {
+                "latitude": position.latitude,
+                "longitude": position.longitude,
+                "radius": 500,
+              },
+            }),
+          );
     }
   }
 
-  void onEventPageChanged(BuildContext context, int index) {
-    final HomeCubit readHomeCubit = context.read<HomeCubit>();
+  void onTapMarker(Marker marker) {
+    if (homeCubit.state.isChosenMarker) {
+      if (homeCubit.state.chosenMarker.markerId.value !=
+          marker.markerId.value) {
+        animateToEvent(marker);
+      } else {
+        homeCubit.changeChosenEvent(marker);
+      }
+    } else {
+      homeCubit.changeChosenEvent(marker, triggerPageListener: false);
+      animateToEvent(marker);
+    }
+  }
 
-    // TODO get marker id and change chosen marker
+  void animateToEvent(Marker marker) {
+    int page = context
+        .read<ChatSocketCubit>()
+        .state
+        .closeEvents
+        .indexWhere((element) => element.id == marker.markerId.value);
+
+    pageController.animateToPage(
+      page,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.ease,
+    );
+  }
+
+  void onEventPageChanged(int index) {
+    if (!homeCubit.state.triggerPageListener) {
+      homeCubit.changeTriggerPageListener(true);
+      return;
+    }
+
     try {
-      List<dynamic> marker =
-          events.firstWhere((element) => element[0] == index.toString());
+      var event = context.read<ChatSocketCubit>().state.closeEvents[index];
+      var marker = event.location;
 
-      readHomeCubit.changeChosenEvent(
+      homeCubit.changeChosenEvent(
         Marker(
           markerId: MarkerId(
-            index.toString(),
+            event.id,
           ),
-          position: LatLng(marker[1][0], marker[1][1]),
+          position: LatLng(marker.latitude, marker.longitude),
         ),
       );
     } catch (e) {
-      readHomeCubit.changeChosenEvent(readHomeCubit.state.chosenMarker);
+      homeCubit.changeChosenEvent(homeCubit.state.chosenMarker);
     }
   }
 }

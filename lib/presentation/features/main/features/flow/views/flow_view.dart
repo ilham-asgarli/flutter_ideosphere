@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/extensions/context_extension.dart';
 import '../../../../../../core/extensions/num_extension.dart';
+import '../../../../../../utils/logic/state/cubit/chat-socket/chat_socket_cubit.dart';
 import '../../event/components/event_item.dart';
 
 class FlowView extends StatelessWidget {
@@ -15,9 +17,13 @@ class FlowView extends StatelessWidget {
           Expanded(
             child: PageView.builder(
               scrollDirection: Axis.vertical,
-              itemCount: 5,
+              itemCount:
+                  context.watch<ChatSocketCubit>().state.closeEvents.length,
               itemBuilder: (context, index) {
-                return const EventItem();
+                return EventItem(
+                  eventModel:
+                      context.read<ChatSocketCubit>().state.closeEvents[index],
+                );
               },
             ),
           ),

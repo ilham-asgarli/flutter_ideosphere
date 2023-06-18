@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../components/custom_circle_button.dart';
-import '../state/cubit/main-nav-bar/main_nav_bar_cubit.dart';
+import '../state/cubit/main-nav-bar/main_cubit.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({Key? key}) : super(key: key);
@@ -15,6 +15,7 @@ class BottomNavBar extends StatelessWidget {
     return Card(
       margin: EdgeInsets.zero,
       color: AppColors.mainColor,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: Column(
         children: [
           const Divider(
@@ -41,15 +42,16 @@ class BottomNavBar extends StatelessWidget {
 
   Widget buildButton(BuildContext context, int index) {
     return CustomCircleButton(
-      color: context.watch<MainNavBarCubit>().state.index == index
+      color: context.watch<MainCubit>().state.index == index
           ? null
           : Colors.transparent,
       child: FaIcon(
         icon(index),
         size: 20,
+        color: Colors.white,
       ),
       onTap: () {
-        BlocProvider.of<MainNavBarCubit>(context).changeTab(index);
+        BlocProvider.of<MainCubit>(context).changeTab(index);
       },
     );
   }

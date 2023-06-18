@@ -1,9 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants/app/app_localizations.dart';
 import '../../../../core/extensions/num_extension.dart';
-import '../../../../utils/logic/constants/locale/locale_keys.g.dart';
+import '../../../../core/extensions/string_extension.dart';
 import '../../../../utils/ui/constants/colors/app_colors.dart';
 import '../../../components/custom_button.dart';
 import '../../../components/custom_text_field.dart';
@@ -15,53 +15,77 @@ class SignForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SignState watchSignState = context.watch<SignCubit>().state;
-    SignCubit readSignCubit = context.read<SignCubit>();
-
     return Form(
+      key: context.read<SignCubit>().signViewModel.signInFormKey,
       child: Column(
         children: [
           CustomTextField(
             fillColor: Colors.white,
-            hintText: LocaleKeys.email.tr(),
+            hintText: AppLocalizations.of(context)!.email,
             hintTextColor: Colors.grey,
             textColor: AppColors.mainColor,
             keyboardType: TextInputType.emailAddress,
             onChanged: (p0) {
-              if (readSignCubit.state.showPasswordField) {
-                readSignCubit.changePasswordFieldVisibility(
-                  showPasswordField: false,
-                );
+              if (context.read<SignCubit>().state.showPasswordField) {
+                context.read<SignCubit>().changePasswordFieldVisibility(
+                      showPasswordField: false,
+                    );
               }
             },
+            onSaved: (newValue) {
+              if (newValue.isNotNull) {
+                context.read<SignCubit>().signViewModel.email = newValue!;
+              }
+            },
+            validator: (value) {
+              if (value.isNull || value!.isEmpty) {
+                return 'Required';
+              } else if (!value.isEmail) {
+                return 'Bad formatted';
+              }
+              return null;
+            },
           ),
-          if (watchSignState.showPasswordField)
+          if (context.watch<SignCubit>().state.showPasswordField)
             Column(
               children: [
                 5.verticalSpace,
                 CustomTextField(
                   fillColor: Colors.white,
-                  hintText: LocaleKeys.password.tr(),
+                  hintText: AppLocalizations.of(context)!.password,
                   hintTextColor: Colors.grey,
                   textColor: AppColors.mainColor,
                   obscureText: true,
+                  onSaved: (newValue) {
+                    if (newValue.isNotNull) {
+                      context.read<SignCubit>().signViewModel.password =
+                          newValue!;
+                    }
+                  },
+                  validator: (value) {
+                    if (value.isNull || value!.isEmpty) {
+                      return 'Required';
+                    } else if (value.length < 6) {
+                      return 'Weak';
+                    }
+                    return null;
+                  },
                 ),
               ],
             ),
           10.verticalSpace,
           CustomButton(
             height: 50,
-            text: watchSignState.showPasswordField
-                ? LocaleKeys.signIn.tr()
-                : LocaleKeys.continue_.tr(),
-            child: watchSignState.signing
+            text: context.watch<SignCubit>().state.showPasswordField
+                ? AppLocalizations.of(context)!.signIn
+                : AppLocalizations.of(context)!.continue_,
+            child: context.watch<SignCubit>().state.signing
                 ? const FractionallySizedCircularProgressIndicator(
                     factor: 0.5,
                   )
                 : null,
             onTap: () async {
-              await readSignCubit.signViewModel
-                  .onSignIn(context, readSignCubit);
+              await context.read<SignCubit>().signViewModel.onSignIn(context);
             },
           ),
         ],

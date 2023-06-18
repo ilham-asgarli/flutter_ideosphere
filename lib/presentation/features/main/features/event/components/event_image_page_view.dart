@@ -31,28 +31,24 @@ class _EventImagePageViewState extends State<EventImagePageView> {
             });
           },
           itemBuilder: (context, index) {
-            return Hero(
-              tag: "image_0",
-              transitionOnUserGestures: true,
-              child: ShaderMask(
-                blendMode: BlendMode.srcATop,
-                shaderCallback: (Rect bounds) {
-                  return const LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.transparent,
-                      AppColors.mainColor,
-                    ],
-                  ).createShader(bounds);
-                },
-                child: CachedNetworkImage(
-                  imageUrl:
-                      "https://media.istockphoto.com/id/499517325/photo/a-man-speaking-at-a-business-conference.jpg?s=612x612&w=0&k=20&c=gWTTDs_Hl6AEGOunoQ2LsjrcTJkknf9G8BGqsywyEtE=",
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                  height: context.width * 1.1,
-                ),
+            return ShaderMask(
+              blendMode: BlendMode.srcATop,
+              shaderCallback: (Rect bounds) {
+                return const LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    AppColors.mainColor,
+                  ],
+                ).createShader(bounds);
+              },
+              child: CachedNetworkImage(
+                imageUrl:
+                    "https://media.istockphoto.com/id/499517325/photo/a-man-speaking-at-a-business-conference.jpg?s=612x612&w=0&k=20&c=gWTTDs_Hl6AEGOunoQ2LsjrcTJkknf9G8BGqsywyEtE=",
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: context.width * 1.1,
               ),
             );
           },

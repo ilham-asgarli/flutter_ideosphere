@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../data/models/chat.dart';
+import '../../../../data/models/event.dart';
+import '../../../../data/models/place.dart';
+import '../../../../presentation/features/main/features/chats/features/chat/state/chat_cubit.dart';
 import '../../../../presentation/features/main/features/chats/features/chat/views/chat_view.dart';
 import '../../../../presentation/features/main/features/event/views/event_view.dart';
+import '../../../../presentation/features/main/features/home/features/start-event/features/pick-location/state/pick_location_cubit.dart';
+import '../../../../presentation/features/main/features/home/features/start-event/features/pick-location/views/pick_location_view.dart';
+import '../../../../presentation/features/main/features/home/features/start-event/state/start_event_cubit.dart';
 import '../../../../presentation/features/main/features/home/features/start-event/views/start_event_view.dart';
-import '../../../../presentation/features/main/state/cubit/main-nav-bar/main_nav_bar_cubit.dart';
+import '../../../../presentation/features/main/state/cubit/main-nav-bar/main_cubit.dart';
 import '../../../../presentation/features/main/views/main_view.dart';
 import '../../../../presentation/features/not-found-navigation/views/not_found_navigation_view.dart';
 import '../../../../presentation/features/sign/state/cubit/sign_cubit.dart';
@@ -24,7 +31,7 @@ class ConfigRouter extends RouterInterface {
     switch (settings.name) {
       case RouterConstants.main:
         widget = BlocProvider(
-          create: (context) => MainNavBarCubit(),
+          create: (context) => MainCubit(context),
           child: const MainView(),
         );
         break;
@@ -35,25 +42,45 @@ class ConfigRouter extends RouterInterface {
         );
         break;
       case RouterConstants.chat:
-        widget = const ChatView();
+        widget = BlocProvider(
+          create: (context) => ChatCubit(
+            context,
+            settings.arguments as Chat,
+          ),
+          child: const ChatView(),
+        );
         break;
       case RouterConstants.startEvent:
-        widget = const StartEventView();
+        widget = BlocProvider(
+          create: (context) => StartEventCubit(context),
+          child: const StartEventView(),
+        );
         break;
       case RouterConstants.event:
-        widget = const EventView();
+        widget = EventView(
+          eventModel: settings.arguments as Event,
+        );
         break;
+      case RouterConstants.pickLocation:
+        widget = BlocProvider(
+          create: (context) => PickLocationCubit(),
+          child: const PickLocationView(),
+        );
+        return normalNavigate<Place>(
+          widget,
+          settings,
+        );
       default:
         //throw NavigateException<SettingsDynamicModel>(args.arguments);
         return normalNavigate(
           const NotFoundNavigationView(),
-          RouterConstants.notFound,
+          const RouteSettings(name: RouterConstants.notFound),
         );
     }
 
     return normalNavigate(
       widget,
-      settings.name!,
+      settings,
     );
   }
 }

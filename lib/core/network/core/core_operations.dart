@@ -9,8 +9,6 @@ extension _CoreHttpOperations on CoreHttp {
   }) async {
     http.Response? response;
 
-    url = ApiUrlConstants.base + url;
-
     try {
       switch (type) {
         case HttpTypes.get:
@@ -39,14 +37,16 @@ extension _CoreHttpOperations on CoreHttp {
       return response;
     } on SocketException {
       BaseHttp? baseHttp = _responseParser<BaseHttp, BaseHttp>(
-          BaseHttp(), {"message": "No Internet connection"});
+        BaseHttp.fromJson,
+        {"message": "No Internet connection"},
+      );
       throw FetchDataException(baseHttp);
     }
   }
 
-  R _returnResponse<R, T extends BaseModel>(
+  R _returnResponse<R, T>(
     http.Response response, {
-    required T parseModel,
+    required T Function(Map<String, dynamic>)? fromJson,
   }) {
     dynamic jsonDecoded = json.decode("{}");
 
@@ -54,11 +54,11 @@ extension _CoreHttpOperations on CoreHttp {
       jsonDecoded = json.decode(utf8.decode(response.bodyBytes));
     }
 
-    if (response.statusCode == 200) {
-      return _responseParser<R, T>(parseModel, jsonDecoded);
+    if (response.statusCode >= 200 && response.statusCode <= 300) {
+      return _responseParser<R, T>(fromJson, jsonDecoded["data"]);
     } else {
       BaseHttp? baseHttp =
-          _responseParser<BaseHttp, T>(BaseHttp(), jsonDecoded);
+          _responseParser<BaseHttp, BaseHttp>(BaseHttp.fromJson, jsonDecoded);
 
       switch (response.statusCode) {
         case 400:
@@ -67,6 +67,8 @@ extension _CoreHttpOperations on CoreHttp {
           throw InvalidInputException(baseHttp);
         case 403:
           throw UnauthorisedException(baseHttp);
+        case 404:
+          throw NotFoundException(baseHttp);
         case 500:
           throw ServerException(baseHttp);
         default:
@@ -75,11 +77,18 @@ extension _CoreHttpOperations on CoreHttp {
     }
   }
 
-  R _responseParser<R, T>(BaseModel model, dynamic data) {
+  R _responseParser<R, T>(
+    T Function(Map<String, dynamic>)? fromJson,
+    dynamic data,
+  ) {
+    if (fromJson == null) {
+      return data as R;
+    }
+
     if (data is List) {
-      return data.map((e) => model.fromJson(e)).toList().cast<T>() as R;
+      return data.map((e) => fromJson(e)).toList().cast<T>() as R;
     } else if (data is Map) {
-      return model.fromJson(data as Map<String, dynamic>) as R;
+      return fromJson(data as Map<String, dynamic>) as R;
     }
 
     return data as R;

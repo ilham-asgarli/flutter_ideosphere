@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../../../data/models/chat_message.dart';
 import '../../../../../../../../utils/ui/constants/colors/app_colors.dart';
 import 'bubble_background.dart';
 import 'bubble_child.dart';
 
 class MessageBubble extends StatelessWidget {
   final Widget? child;
-  final Message? message;
+  final ChatMessage chatMessageModel;
 
   const MessageBubble({
     Key? key,
     this.child,
-    required this.message,
+    required this.chatMessageModel,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final messageAlignment =
-        (message?.owner ?? true) ? Alignment.topRight : Alignment.topLeft;
+        (chatMessageModel.owner) ? Alignment.topRight : Alignment.topLeft;
 
     return FractionallySizedBox(
       widthFactor: 1,
@@ -29,7 +30,7 @@ class MessageBubble extends StatelessWidget {
           child: ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(16.0)),
             child: BubbleBackground(
-              colors: (message?.owner ?? true)
+              colors: chatMessageModel.owner
                   ? [
                       Colors.green.shade300,
                       Colors.green,
@@ -47,7 +48,7 @@ class MessageBubble extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: child ??
                       BubbleChild(
-                        message: message,
+                        chatMessageModel: chatMessageModel,
                       ),
                 ),
               ),
@@ -57,18 +58,4 @@ class MessageBubble extends StatelessWidget {
       ),
     );
   }
-}
-
-class Message {
-  final bool? owner;
-  final String? message;
-  final bool? NEW;
-  final String? dateTime;
-
-  Message({
-    this.owner,
-    this.message,
-    this.NEW,
-    this.dateTime,
-  });
 }
