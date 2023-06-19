@@ -24,6 +24,7 @@ Event _$EventFromJson(Map<String, dynamic> json) => Event(
           json['end_time'], const DateTimeConverter().fromJson),
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
       location: Location.fromJson(json['location'] as Map<String, dynamic>),
+      joined: json['joined'] as bool,
     );
 
 Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
@@ -44,6 +45,7 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
           instance.endTime, const DateTimeConverter().toJson),
       'tags': instance.tags,
       'location': instance.location.toJson(),
+      'joined': instance.joined,
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(

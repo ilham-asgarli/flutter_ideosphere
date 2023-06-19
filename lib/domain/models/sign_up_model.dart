@@ -1,9 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../utils/logic/helpers/json-serializable/date_time_converter.dart';
+
 part 'sign_up_model.g.dart';
 
 @JsonSerializable(
     fieldRename: FieldRename.snake, explicitToJson: true, includeIfNull: false)
+@DateTimeConverter()
 class SignUpModel {
   SignUpModel({
     required this.email,
@@ -30,6 +33,7 @@ class SignUpModel {
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+@DateTimeConverter()
 class CustomerModel {
   CustomerModel({
     required this.genderId,
@@ -53,6 +57,7 @@ class CustomerModel {
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
+@DateTimeConverter()
 class CompanyModel {
   CompanyModel({
     this.name,

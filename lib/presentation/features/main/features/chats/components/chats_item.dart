@@ -29,7 +29,11 @@ class ChatsItem extends StatelessWidget {
         onTap: () {
           RouterService.instance.pushNamed(
             path: RouterConstants.chat,
-            data: context.read<ChatSocketCubit>().state.chats[index].chatModel,
+            data: {
+              "chat":
+                  context.read<ChatSocketCubit>().state.chats[index].chatModel,
+              "context": context,
+            },
           );
         },
         shape: RoundedRectangleBorder(

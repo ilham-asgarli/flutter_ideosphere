@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../utils/logic/state/cubit/chat-socket/chat_socket_cubit.dart';
 import '../../../../../widgets/expandable_page_view.dart';
 import '../state/cubit/home_cubit.dart';
-import 'event_card.dart';
+import 'event-card/event_card.dart';
 
 class EventPageView extends StatefulWidget {
   const EventPageView({Key? key}) : super(key: key);

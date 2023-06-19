@@ -1,5 +1,6 @@
 part of 'chat_socket_cubit.dart';
 
+@immutable
 class ChatSocketState {
   final List<ChatWithMessagesModel> chats;
   final List<Event> closeEvents;

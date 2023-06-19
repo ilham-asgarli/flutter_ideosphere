@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../utils/logic/helpers/json-serializable/date_time_converter.dart';
+
 part 'create_event_model.g.dart';
 
 @JsonSerializable(
@@ -7,6 +9,7 @@ part 'create_event_model.g.dart';
   explicitToJson: true,
   includeIfNull: false,
 )
+@DateTimeConverter()
 class CreateEventModel {
   CreateEventModel({
     required this.genderId,
@@ -44,6 +47,7 @@ class CreateEventModel {
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
+@DateTimeConverter()
 class Location {
   Location({
     required this.latitude,

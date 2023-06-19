@@ -40,7 +40,7 @@ class HomeViewModel {
               'body': {
                 "latitude": position.latitude,
                 "longitude": position.longitude,
-                "radius": 500,
+                "radius": 1,
               },
             }),
           );

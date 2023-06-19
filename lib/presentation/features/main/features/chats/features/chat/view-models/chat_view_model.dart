@@ -32,7 +32,7 @@ class ChatViewModel {
             'name': 'open-messages',
             'body': {
               "messages": unreadMessages,
-              "chat_id": chatCubit.chat,
+              "chat_id": chatCubit.chat.id,
             },
           }),
         );
@@ -44,7 +44,7 @@ class ChatViewModel {
             'name': 'new-message',
             'body': {
               "message": textEditingController.text,
-              "chat_id": chatCubit.chat,
+              "chat_id": chatCubit.chat.id,
             },
           }),
         );

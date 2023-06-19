@@ -23,10 +23,22 @@ class EventOrganizer extends StatelessWidget {
         10.horizontalSpace,
         Expanded(
           child: Text(
-            "${eventModel.organizer.customer?.firstname} ${eventModel.organizer.customer?.lastname}",
+            getName(),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],
     );
+  }
+
+  String getName() {
+    if (eventModel.organizer.customer != null) {
+      return "${eventModel.organizer.customer?.firstname ?? ""} ${eventModel.organizer.customer?.lastname ?? ""}";
+    } else if (eventModel.organizer.company != null) {
+      return eventModel.organizer.company?.name ?? "";
+    } else {
+      return "";
+    }
   }
 }

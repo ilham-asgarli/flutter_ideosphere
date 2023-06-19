@@ -24,6 +24,7 @@ class Event {
     this.endTime,
     this.tags,
     required this.location,
+    required this.joined,
   });
 
   String id;
@@ -40,8 +41,8 @@ class Event {
   DateTime? startTime;
   DateTime? endTime;
   List<String>? tags;
-
   Location location;
+  bool joined;
 
   factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
 

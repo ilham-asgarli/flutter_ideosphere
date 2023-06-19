@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../data/models/chat.dart';
 import '../../../../data/models/event.dart';
 import '../../../../data/models/place.dart';
 import '../../../../presentation/features/main/features/chats/features/chat/state/chat_cubit.dart';
 import '../../../../presentation/features/main/features/chats/features/chat/views/chat_view.dart';
+import '../../../../presentation/features/main/features/event/state/event_cubit.dart';
 import '../../../../presentation/features/main/features/event/views/event_view.dart';
 import '../../../../presentation/features/main/features/home/features/start-event/features/pick-location/state/pick_location_cubit.dart';
 import '../../../../presentation/features/main/features/home/features/start-event/features/pick-location/views/pick_location_view.dart';
@@ -42,10 +42,12 @@ class ConfigRouter extends RouterInterface {
         );
         break;
       case RouterConstants.chat:
+        Map map = settings.arguments as Map;
+
         widget = BlocProvider(
           create: (context) => ChatCubit(
-            context,
-            settings.arguments as Chat,
+            map["context"],
+            map["chat"],
           ),
           child: const ChatView(),
         );
@@ -57,8 +59,9 @@ class ConfigRouter extends RouterInterface {
         );
         break;
       case RouterConstants.event:
-        widget = EventView(
-          eventModel: settings.arguments as Event,
+        widget = BlocProvider(
+          create: (context) => EventCubit(settings.arguments as Event),
+          child: const EventView(),
         );
         break;
       case RouterConstants.pickLocation:

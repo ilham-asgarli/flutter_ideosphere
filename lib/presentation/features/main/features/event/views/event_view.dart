@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../data/models/event.dart';
-import '../components/event_item.dart';
+import '../../../../../../utils/logic/constants/enums/app_enum.dart';
+import '../components/event-item/event_item.dart';
+import '../state/event_cubit.dart';
 
 class EventView extends StatelessWidget {
-  final Event eventModel;
-
-  const EventView({Key? key, required this.eventModel}) : super(key: key);
+  const EventView({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: EventItem(eventModel: eventModel),
+      body: EventItem(
+        eventModel: context.read<EventCubit>().eventModel,
+        event: EventType.closeEvent,
+      ),
     );
   }
 }

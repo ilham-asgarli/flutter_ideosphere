@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/widgets.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -146,7 +147,8 @@ class ChatSocketCubit extends HydratedCubit<ChatSocketState> {
 
   void addChatModel(Chat chatModel) {
     emit(state.copyWith(
-      chats: state.chats..add(ChatWithMessagesModel(chatModel: chatModel)),
+      chats: state.chats.toList()
+        ..insert(0, ChatWithMessagesModel(chatModel: chatModel)),
     ));
   }
 
@@ -164,12 +166,20 @@ class ChatSocketCubit extends HydratedCubit<ChatSocketState> {
   }
 
   void addChatMessageModel(String chatId, ChatMessage chatMessageModel) {
-    state.chats
-        .firstWhere((element) => element.chatModel.id == chatId)
-        .chatMessageModels
-        .insert(0, chatMessageModel);
+    var chats = state.chats.map((e) {
+      if (e.chatModel.id == chatId) {
+        return ChatWithMessagesModel(
+          chatModel: e.chatModel,
+          chatMessageModels: e.chatMessageModels.toList()
+            ..insert(0, chatMessageModel),
+        );
+      }
+      return e;
+    }).toList();
 
-    emit(state);
+    emit(state.copyWith(
+      chats: chats,
+    ));
   }
 
   void openMessages(String chatId) {
@@ -193,9 +203,7 @@ class ChatSocketCubit extends HydratedCubit<ChatSocketState> {
       return;
     }).toList();
 
-    emit(state.copyWith(
-      chats: state.chats,
-    ));
+    emit(state);
   }
 
   @override

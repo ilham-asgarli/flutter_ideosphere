@@ -12,4 +12,11 @@ class EventRepository extends EventInterface {
 
     if (response is! BaseSuccess) throw Error();
   }
+
+  @override
+  Future<void> joinEvent(String eventId) async {
+    final response = await eventDataSource.joinEvent(eventId);
+
+    if (response is! BaseSuccess) throw Error();
+  }
 }

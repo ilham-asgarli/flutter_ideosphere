@@ -19,4 +19,16 @@ class EventDataSource extends EventInterface {
 
     return response;
   }
+
+  @override
+  Future<BaseResponse> joinEvent(String eventId) async {
+    BaseResponse response = await CoreHttp.instance.send(
+      ApiUrlConstants.eventParticipant(eventId),
+      type: HttpTypes.post,
+      accessToken: SharedPreferencesManager.instance.preferences
+          ?.getString(SharedPreferencesConstants.accessToken),
+    );
+
+    return response;
+  }
 }

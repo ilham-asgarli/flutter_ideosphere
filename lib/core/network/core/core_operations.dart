@@ -26,7 +26,7 @@ extension _CoreHttpOperations on CoreHttp {
               HttpHeaders.authorizationHeader: accessToken ?? "",
               HttpHeaders.contentTypeHeader: "application/json; charset=utf-8"
             },
-            body: jsonEncode(data),
+            body: data != null ? jsonEncode(data) : null,
             encoding: Encoding.getByName("utf-8"),
           );
           break;
